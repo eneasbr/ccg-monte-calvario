@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --gold:         #4A90D9;
+  --gold-light:   #7DB8F0;
+  --gold-dark:    #002047;
+  --cream:        #F0F6FF;
+  --cream-dark:   #C8DCEF;
+  --bg:           #060C14;
+  --bg2:          #0A1220;
+  --bg3:          #0F1A2E;
+  --bg4:          #152338;
+  --border:       rgba(74,144,217,0.25);
+  --border-light: rgba(74,144,217,0.12);
+  --text:         #E8EEF8;
+  --text-muted:   #8AABCC;
+  --text-dim:     #4A6A8A;
+  --green:        #4CAF7D;
+  --red:          #E05C5C;
+  --yellow:       #F0B429;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', 'Montserrat', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+/* ── ANIMATIONS ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ── FADE IN ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── PROGRESS BARS ── */
+.progress-fill {
+  transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── LIVE DOT ── */
+.live-dot {
+  animation: pulse 2s infinite;
+}
+
+/* ── TOAST ── */
+.toast {
+  animation: toastIn 0.3s ease;
+}
+
+/* ── SKELETON LOADING ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ── MILESTONE SCROLLBAR HIDE ── */
+.milestone-row {
+  scrollbar-width: none;
+}
+.milestone-row::-webkit-scrollbar {
+  display: none;
+}

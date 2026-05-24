@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — CCG Monte Calvário</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#002047;--brand-mid:#0A3A7A;--brand-light:#1a5cbf;
+  --accent:#4A90D9;--accent-light:#7DB8F0;
+  --bg:#060C14;--bg2:#0A1220;--bg3:#0F1A2E;--bg4:#152338;
+  --border:rgba(74,144,217,0.2);--border-light:rgba(74,144,217,0.1);
+  --text:#E8EEF8;--text-muted:#8AABCC;--text-dim:#4A6A8A;
+  --green:#4CAF7D;--red:#E05C5C;--yellow:#F0B429;
+  --sw:240px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+
+/* LOGIN */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+#login-screen::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,32,71,0.35) 0%,transparent 65%);pointer-events:none}
+.login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:400px;position:relative;z-index:1}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem}
+.lmark{width:42px;height:42px;background:linear-gradient(135deg,var(--brand),var(--brand-light));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;font-family:'Montserrat',sans-serif}
+.login-title{font-family:'Montserrat',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+.login-sub{font-size:13px;color:var(--text-muted);margin-bottom:2rem}
+.lerr{display:none;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:1rem}
+
+/* FORMS */
+.fg{margin-bottom:1rem}
+.fl{display:block;font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;transition:border-color .2s;outline:none}
+.fi:focus{border-color:var(--accent)}
+.fi::placeholder{color:var(--text-dim)}
+textarea.fi{resize:vertical}
+.fs{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%238AABCC' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ig{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s}
+.ig:focus-within{border-color:var(--accent)}
+.ig.ed{border-color:var(--accent)!important}
+.ip{font-size:12px;color:var(--text-dim);padding:10px 12px;background:var(--bg4);border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0}
+.ig input,.ig textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Montserrat',sans-serif;font-size:14px;font-weight:500;padding:10px 12px}
+
+/* BUTTONS */
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:9px 18px;border-radius:9px;cursor:pointer;transition:all .2s;border:none;display:inline-flex;align-items:center;gap:6px}
+.bp{background:var(--accent);color:#fff}.bp:hover{background:var(--accent-light);transform:translateY(-1px)}
+.bo{background:transparent;color:var(--text-muted);border:1px solid var(--border)}.bo:hover{border-color:var(--accent);color:var(--accent-light)}
+.bd{background:rgba(224,92,92,.1);color:var(--red);border:1px solid rgba(224,92,92,.2)}.bd:hover{background:rgba(224,92,92,.2)}
+.bsm{padding:6px 12px;font-size:12px;border-radius:7px}
+.bfw{width:100%;justify-content:center;padding:12px}
+
+/* LAYOUT */
+#admin-app{display:none;min-height:100vh}
+.al{display:flex;min-height:100vh}
+.sb{width:var(--sw);background:var(--bg2);border-right:1px solid var(--border-light);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50;transition:transform .3s;overflow-y:auto}
+.sb-logo{padding:1.25rem;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sb-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--brand),var(--brand-light));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;font-family:'Montserrat',sans-serif;flex-shrink:0}
+.sb-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.sb-sub{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em}
+.sb-nav{flex:1;padding:.75rem}
+.ngl{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);padding:0 8px;margin:1rem 0 .3rem}
+.ngl:first-child{margin-top:0}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--text-muted);font-size:13px;font-weight:500;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:var(--border-light);color:var(--text)}
+.ni.active{background:rgba(74,144,217,.12);color:var(--accent-light);border:1px solid rgba(74,144,217,.15)}
+.nicon{font-size:15px;flex-shrink:0;width:20px;text-align:center}
+.sb-bot{padding:.75rem;border-top:1px solid var(--border-light);flex-shrink:0}
+.ur{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--bg3);margin-bottom:8px}
+.mc{margin-left:var(--sw);flex:1;min-height:100vh}
+.tb{position:sticky;top:0;z-index:40;background:rgba(6,12,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between}
+.tb-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:600;color:var(--text)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.lv{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:.08em;text-transform:uppercase}
+.ld{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* PAGES */
+.page{display:none;padding:1.5rem;max-width:1200px}
+.page.active{display:block}
+.pey{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
+.pt{font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:1.25rem}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border-light);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;transition:border-color .2s}
+.card:hover{border-color:rgba(74,144,217,.18)}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;border-bottom:1px solid var(--border-light);gap:10px;flex-wrap:wrap}
+.ct{font-size:13px;font-weight:600;color:var(--text)}
+.cb{padding:1.25rem}
+.cbs{padding:.5rem 1.25rem}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:1000px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.g2,.g3,.g4,.fr{grid-template-columns:1fr}.mc{margin-left:0}.sb{transform:translateX(-100%)}.sb.open{transform:translateX(0)}}
+
+/* STAT CARDS */
+.sc{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:1rem 1.1rem;transition:border-color .2s}
+.sc:hover{border-color:var(--border)}
+.sl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:.4rem}
+.sv{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:300;color:var(--text);line-height:1}
+.sd{font-size:11px;margin-top:4px;font-weight:500}
+.dg{color:var(--green)}.dy{color:var(--yellow)}.dr{color:var(--red)}
+
+/* PROGRESS */
+.pw{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.pf{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--brand-light),var(--accent));transition:width 1s ease}
+.pf.gr{background:linear-gradient(90deg,#2D7A50,var(--green))}
+.bpw{height:10px;background:var(--bg4);border-radius:5px;overflow:hidden;margin-bottom:.5rem}
+.bpf{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--brand),var(--accent),var(--accent-light));transition:width 1.2s ease}
+
+/* PROGRESS HERO */
+.ph{background:linear-gradient(135deg,var(--bg2) 0%,rgba(0,32,71,.3) 100%);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem}
+.phl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);margin-bottom:.3rem}
+.pha{font-family:'Montserrat',sans-serif;font-size:2.4rem;font-weight:300;color:var(--text);line-height:1;margin-bottom:.25rem}
+.phg{font-size:13px;color:var(--text-muted);margin-bottom:1rem}
+.phm{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted)}
+
+/* TABLE */
+.dt{width:100%;border-collapse:collapse}
+.dt th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--border-light);white-space:nowrap}
+.dt td{padding:11px 14px;font-size:13px;color:var(--text);border-bottom:1px solid var(--border-light);vertical-align:middle}
+.dt tr:last-child td{border-bottom:none}
+.dt tbody tr:hover td{background:rgba(74,144,217,.03)}
+.tw{overflow-x:auto}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;letter-spacing:.05em;text-transform:uppercase}
+.bd-dia{background:rgba(147,210,255,.12);color:#93D2FF;border:1px solid rgba(147,210,255,.2)}
+.bd-ouro{background:rgba(255,215,0,.12);color:#FFD700;border:1px solid rgba(255,215,0,.2)}
+.bd-prata{background:rgba(192,192,192,.12);color:#D8D8D8;border:1px solid rgba(192,192,192,.2)}
+.bd-bronze{background:rgba(205,127,50,.12);color:#E8A060;border:1px solid rgba(205,127,50,.2)}
+.bd-green{background:rgba(76,175,125,.12);color:var(--green);border:1px solid rgba(76,175,125,.2)}
+.bd-blue{background:rgba(74,144,217,.12);color:var(--accent-light);border:1px solid rgba(74,144,217,.2)}
+.bd-yellow{background:rgba(240,180,41,.12);color:var(--yellow);border:1px solid rgba(240,180,41,.2)}
+
+/* AVATAR */
+.av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--brand),var(--accent));flex-shrink:0}
+.av-sm{width:28px;height:28px;font-size:10px}
+.av-md{width:36px;height:36px;font-size:13px}
+.av-lg{width:52px;height:52px;font-size:18px}
+
+/* PODIUM */
+.pod-grid{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:10px;align-items:end;margin-bottom:1rem}
+.pod-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:14px;padding:1rem;text-align:center;position:relative;transition:all .2s}
+.pod-card:hover{border-color:var(--border)}
+.pod-card.first{border-color:var(--border);background:linear-gradient(180deg,rgba(74,144,217,.08) 0%,var(--bg2) 100%);padding-top:1.75rem}
+.pod-crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:22px}
+.pod-name{font-size:13px;font-weight:600;color:var(--text);margin:.5rem 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod-amt{font-size:12px;color:var(--accent-light);font-weight:600}
+
+/* MONTH EDIT */
+.mec{background:var(--bg3);border:1px solid var(--border-light);border-radius:12px;padding:1rem;transition:border-color .2s}
+.mec:hover{border-color:var(--border)}
+.mnt{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:.75rem}
+
+/* CSV DROP */
+.cdrop{border:2px dashed var(--border);border-radius:12px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3)}
+.cdrop:hover,.cdrop.over{border-color:var(--accent);background:rgba(74,144,217,.05)}
+
+/* LOG */
+.li{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border-light)}
+.li:last-child{border-bottom:none}
+.ldot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dg2{background:var(--green)}.db{background:var(--accent)}.dy2{background:var(--yellow)}.dr2{background:var(--red)}
+.lt{font-size:13px;color:var(--text);line-height:1.4}
+.ltime{font-size:11px;color:var(--text-dim);margin-top:2px}
+
+/* UPDATE */
+.ui{background:var(--bg3);border:1px solid var(--border-light);border-radius:12px;padding:1rem 1.1rem;margin-bottom:10px}
+.ui:hover{border-color:var(--border)}
+.ui-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:6px}
+.ui-date{font-size:11px;color:var(--text-dim)}
+
+/* MURAL */
+.nc{font-family:'Montserrat',sans-serif;font-size:13px;color:var(--text-muted);padding:6px 14px;border:1px solid var(--border-light);border-radius:100px;background:var(--bg3);transition:all .2s;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.nc:hover{border-color:var(--border);color:var(--accent-light)}
+.nc.appr{border-color:rgba(76,175,125,.3);color:var(--green);background:rgba(76,175,125,.06)}
+.nc.pend{border-color:rgba(240,180,41,.3);color:var(--yellow);background:rgba(240,180,41,.06)}
+
+/* USER CARD */
+.ucard{background:var(--bg3);border:1px solid var(--border-light);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.ucard:hover{border-color:var(--border)}
+
+/* CHART */
+.chart-wrap{display:flex;align-items:flex-end;gap:8px;height:120px;padding-top:10px}
+.chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--accent-light),var(--accent));transition:height .8s ease;min-height:4px}
+.chart-bar.goal{background:var(--bg4);opacity:.5}
+.chart-lbl{font-size:10px;color:var(--text-dim);font-weight:600;text-transform:uppercase}
+.chart-val{font-size:10px;color:var(--text-muted);font-weight:600}
+
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(6,12,20,.88);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.mo.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:18px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:1.25rem;border-bottom:1px solid var(--border-light)}
+.mt2{font-size:15px;font-weight:600;color:var(--text)}
+.mx{background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
+.mx:hover{color:var(--text)}
+.mb{padding:1.25rem}
+.mf{padding:1rem 1.25rem;border-top:1px solid var(--border-light);display:flex;gap:8px;justify-content:flex-end}
+
+/* TOAST */
+.tw2{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--text);display:flex;align-items:center;gap:10px;min-width:260px;animation:tin .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.toast.success{border-left:3px solid var(--green)}.toast.error{border-left:3px solid var(--red)}.toast.info{border-left:3px solid var(--accent)}
+@keyframes tin{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+hr{border:none;border-top:1px solid var(--border-light);margin:1.25rem 0}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="lmark">MC</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text)">Painel Administrativo</div>
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">CCG Monte Calvário</div>
+      </div>
+    </div>
+    <h2 class="login-title">Entrar</h2>
+    <p class="login-sub">Acesso restrito a administradores da campanha.</p>
+    <div class="lerr" id="lerr">Email ou senha incorretos.</div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="l-email" placeholder="admin@ccgmontecalvario.com.br"/></div>
+    <div class="fg"><label class="fl">Senha</label><input class="fi" type="password" id="l-pass" placeholder="••••••••"/></div>
+    <div class="fg">
+      <label class="fl">Perfil de acesso</label>
+      <select class="fs" id="l-role">
+        <option value="superadmin">👑 Super Admin</option>
+        <option value="admin">✏️ Admin</option>
+        <option value="viewer">👁️ Visualizador</option>
+      </select>
+    </div>
+    <button class="btn bp bfw" onclick="doLogin()">Entrar no painel →</button>
+    <p style="font-size:11px;color:var(--text-dim);text-align:center;margin-top:1rem">Demo: qualquer email + senha "admin123"</p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <div class="al">
+
+    <!-- SIDEBAR -->
+    <aside class="sb" id="sidebar">
+      <div class="sb-logo">
+        <div class="sb-mark">MC</div>
+        <div><div class="sb-title">Founding Partners</div><div class="sb-sub">CCG Monte Calvário</div></div>
+      </div>
+      <nav class="sb-nav">
+        <div class="ngl">Principal</div>
+        <button class="ni active" onclick="nav('visao-geral',this)"><span class="nicon">📊</span>Visão Geral</button>
+        <button class="ni" onclick="nav('metas',this)"><span class="nicon">🎯</span>Metas Mensais</button>
+        <div class="ngl">Parceiros</div>
+        <button class="ni" onclick="nav('parceiros',this)"><span class="nicon">👥</span>Gerenciar Parceiros</button>
+        <button class="ni" onclick="nav('ranking',this)"><span class="nicon">🏆</span>Ranking & Pódio</button>
+        <button class="ni" onclick="nav('mural',this)"><span class="nicon">🏛️</span>Mural dos Fundadores</button>
+        <div class="ngl">Conteúdo</div>
+        <button class="ni" onclick="nav('updates',this)"><span class="nicon">📣</span>Publicar Updates</button>
+        <button class="ni" onclick="nav('csv',this)"><span class="nicon">📤</span>Importar CSV</button>
+        <div class="ngl">Sistema</div>
+        <button class="ni" onclick="nav('usuarios',this)"><span class="nicon">🔐</span>Usuários & Acesso</button>
+        <button class="ni" onclick="nav('config',this)"><span class="nicon">⚙️</span>Configurações</button>
+        <button class="ni" onclick="nav('audit',this)"><span class="nicon">📋</span>Auditoria</button>
+        <div class="ngl">Atalhos</div>
+        <button class="ni" onclick="window.open('index.html','_blank')"><span class="nicon">🌐</span>Ver Dashboard Público</button>
+      </nav>
+      <div class="sb-bot">
+        <div class="ur">
+          <div class="av av-sm" id="sb-av">AD</div>
+          <div><div style="font-size:12px;font-weight:600;color:var(--text)" id="sb-name">Admin</div><div style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em" id="sb-role">Super Admin</div></div>
+        </div>
+        <button class="btn bo bfw bsm" onclick="doLogout()">↩ Sair</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="mc">
+      <div class="tb">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer" id="mbtn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <span class="tb-title" id="tb-title">Visão Geral</span>
+        </div>
+        <div class="tb-right">
+          <div class="lv"><span class="ld"></span>Ao vivo</div>
+          <button class="btn bo bsm" onclick="sync()">↺ Sincronizar</button>
+          <button class="btn bp bsm" onclick="nav('parceiros',null);setTimeout(openAdd,100)">+ Parceiro</button>
+        </div>
+      </div>
+
+      <!-- PAGE: VISÃO GERAL -->
+      <div class="page active" id="page-visao-geral">
+        <div class="pey">Painel de controle</div>
+        <div class="pt">Visão Geral da Campanha</div>
+        <div class="ph">
+          <div class="phl">Total levantado</div>
+          <div class="pha" id="ph-amt">—</div>
+          <div class="phg">Meta: <strong style="color:var(--accent-light)">R$ 200.000</strong> · Prazo: Setembro/2025</div>
+          <div class="bpw"><div class="bpf" id="ph-bar" style="width:0%"></div></div>
+          <div class="phm"><span><strong id="ph-pct">0%</strong> concluído</span><span>Faltam <strong id="ph-rem">—</strong></span></div>
+        </div>
+        <div class="g4" style="margin-bottom:1.25rem">
+          <div class="sc"><div class="sl">Parceiros</div><div class="sv" id="s-par">—</div><div class="sd dg">↑ meta: 100</div></div>
+          <div class="sc"><div class="sl">Média/Parceiro</div><div class="sv" id="s-avg">—</div></div>
+          <div class="sc"><div class="sl">Melhor Mês</div><div class="sv" id="s-best">—</div><div class="sd dg" id="s-bestv">—</div></div>
+          <div class="sc"><div class="sl">Prazo</div><div class="sv">Set/25</div><div class="sd dy">4 meses</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">📈 Arrecadação por mês</span><span class="badge bd-blue">2025</span></div>
+            <div class="cb">
+              <div class="chart-wrap" id="chart"></div>
+              <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim)"><div style="width:10px;height:10px;border-radius:2px;background:var(--accent)"></div>Arrecadado</div>
+                <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim)"><div style="width:10px;height:10px;border-radius:2px;background:var(--bg4)"></div>Meta</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">⚡ Atualização rápida</span><button class="btn bp bsm" onclick="saveQuick()">Salvar</button></div>
+            <div class="cb">
+              <p style="font-size:12px;color:var(--text-muted);margin-bottom:1rem">Atualize os totais da campanha diretamente aqui.</p>
+              <div class="fg"><label class="fl">Total levantado (R$)</label><div class="ig" id="ig1"><span class="ip">R$</span><input type="number" id="q-total" oninput="this.closest('.ig').classList.add('ed')"/></div></div>
+              <div class="fg"><label class="fl">Total de parceiros</label><div class="ig" id="ig2"><span class="ip">#</span><input type="number" id="q-par" oninput="this.closest('.ig').classList.add('ed')"/></div></div>
+              <div class="fg"><label class="fl">Meta total (R$)</label><div class="ig" id="ig3"><span class="ip">R$</span><input type="number" id="q-goal" oninput="this.closest('.ig').classList.add('ed')"/></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">📋 Atividade recente</span><button class="btn bo bsm" onclick="nav('audit',null)">Ver tudo →</button></div>
+          <div id="mini-log" style="padding:.25rem 1.25rem"></div>
+        </div>
+      </div>
+
+      <!-- PAGE: METAS -->
+      <div class="page" id="page-metas">
+        <div class="pey">Metas mensais</div>
+        <div class="pt">Progresso Mês a Mês</div>
+        <div class="card">
+          <div class="ch"><span class="ct">Editar valores arrecadados</span><button class="btn bp bsm" onclick="saveMonths()">💾 Salvar todos</button></div>
+          <div class="cb">
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:1.25rem">Insira o valor arrecadado em cada mês. O dashboard público é atualizado automaticamente.</p>
+            <div class="g4" id="month-ed"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">Editar metas-alvo mensais</span><button class="btn bo bsm" onclick="saveTargets()">Salvar metas</button></div>
+          <div class="cb">
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:1.25rem">Altere o valor-alvo de cada mês se necessário.</p>
+            <div class="g4" id="target-ed"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: PARCEIROS -->
+      <div class="page" id="page-parceiros">
+        <div class="pey">Parceiros fundadores</div>
+        <div class="pt">Gerenciar Parceiros</div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Lista de parceiros <span style="color:var(--text-dim);font-weight:400" id="d-count"></span></span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input class="fi" id="d-search" placeholder="🔍 Buscar..." style="padding:7px 12px;font-size:13px;width:180px" oninput="filterDonors()"/>
+              <select class="fs" id="d-filter" style="padding:7px 12px;font-size:13px;width:130px" onchange="filterDonors()">
+                <option value="">Todos</option>
+                <option value="Diamante">💎 Diamante</option>
+                <option value="Ouro">🥇 Ouro</option>
+                <option value="Prata">🥈 Prata</option>
+                <option value="Bronze">🥉 Bronze</option>
+              </select>
+              <button class="btn bp bsm" onclick="openAdd()">+ Novo parceiro</button>
+            </div>
+          </div>
+          <div class="tw"><table class="dt" id="d-table"></table></div>
+        </div>
+      </div>
+
+      <!-- PAGE: RANKING -->
+      <div class="page" id="page-ranking">
+        <div class="pey">Gamificação</div>
+        <div class="pt">Ranking & Pódio</div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">👑 Pódio atual</span><button class="btn bo bsm" onclick="renderRanking()">↺ Atualizar</button></div>
+            <div class="cb" id="podium"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">🏆 Top 10</span></div>
+            <div id="rank-list" style="padding:.25rem 1.25rem"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">💎 Distribuição por nível</span></div>
+          <div class="cb"><div class="g4" id="badge-stats"></div></div>
+        </div>
+      </div>
+
+      <!-- PAGE: MURAL -->
+      <div class="page" id="page-mural">
+        <div class="pey">Legado permanente</div>
+        <div class="pt">Mural dos Fundadores</div>
+        <div class="card" style="background:linear-gradient(135deg,var(--bg2),rgba(0,32,71,.2));border-color:var(--border)">
+          <div class="cb" style="text-align:center;padding:2rem">
+            <div style="font-size:2rem;margin-bottom:.5rem">🏛️</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.4rem">Placa dos Fundadores</div>
+            <p style="font-size:13px;color:var(--text-muted);max-width:500px;margin:0 auto">Os nomes aprovados serão gravados permanentemente na placa da nova sede da CCG Monte Calvário.</p>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">✅ Aprovados para a placa</span><span class="badge bd-green" id="appr-cnt">0 nomes</span></div>
+            <div class="cb"><div id="mural-appr" style="display:flex;flex-wrap:wrap;gap:8px;min-height:50px"></div></div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">⏳ Aguardando aprovação</span><span class="badge bd-yellow" id="pend-cnt">0</span></div>
+            <div class="cb"><div id="mural-pend" style="display:flex;flex-wrap:wrap;gap:8px;min-height:50px"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">➕ Adicionar nome manualmente</span></div>
+          <div class="cb">
+            <div class="fr" style="align-items:flex-end">
+              <div class="fg" style="margin:0"><label class="fl">Nome para a placa</label><input class="fi" id="mural-new" placeholder="Ex: Família Silva"/></div>
+              <button class="btn bp" onclick="addMural()" style="height:42px">Adicionar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: UPDATES -->
+      <div class="page" id="page-updates">
+        <div class="pey">Comunicação</div>
+        <div class="pt">Publicar Updates</div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">✏️ Novo update</span></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">Título</label><input class="fi" id="upd-t" placeholder="Ex: Meta de junho atingida! 🎉"/></div>
+              <div class="fg"><label class="fl">Mensagem</label><textarea class="fi" id="upd-b" rows="4" placeholder="Mensagem motivacional para os parceiros..."></textarea></div>
+              <div class="fr">
+                <div class="fg" style="margin:0"><label class="fl">Tipo</label>
+                  <select class="fs" id="upd-type">
+                    <option value="milestone">🎉 Marco atingido</option>
+                    <option value="update">📢 Atualização</option>
+                    <option value="thanks">🙏 Agradecimento</option>
+                    <option value="urgent">🔥 Urgente</option>
+                  </select>
+                </div>
+                <div class="fg" style="margin:0"><label class="fl">Visibilidade</label>
+                  <select class="fs" id="upd-vis">
+                    <option value="public">🌐 Público</option>
+                    <option value="partners">👥 Só parceiros</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:1rem">
+                <button class="btn bp" onclick="publishUpd()">📣 Publicar agora</button>
+                <button class="btn bo" onclick="toast('Rascunho salvo!','info')">💾 Rascunho</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">📰 Publicados</span><span class="badge bd-blue" id="upd-cnt">0</span></div>
+            <div id="upd-list" style="padding:.25rem 1.25rem;max-height:420px;overflow-y:auto"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: CSV -->
+      <div class="page" id="page-csv">
+        <div class="pey">Importação de dados</div>
+        <div class="pt">Importar via CSV</div>
+        <div class="card">
+          <div class="ch"><span class="ct">📋 Formato esperado</span></div>
+          <div class="cb">
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:.75rem">A planilha deve ter as colunas nessa ordem:</p>
+            <div style="background:var(--bg3);border:1px solid var(--border-light);border-radius:8px;padding:.75rem 1rem;font-size:12px;margin-bottom:.75rem"><code style="color:var(--accent-light)">nome, whatsapp, junho, julho, agosto, setembro, total, badge</code></div>
+            <div style="background:var(--bg3);border:1px solid var(--border-light);border-radius:8px;padding:.75rem 1rem;font-size:12px"><strong style="color:var(--text);display:block;margin-bottom:4px">Exemplo:</strong><code style="color:var(--text-dim)">Família Silva, 11999990000, 2000, 1500, 1000, 500, 5000, Diamante</code></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">📤 Upload do arquivo</span></div>
+          <div class="cb">
+            <div class="cdrop" id="cdrop" onclick="document.getElementById('cfile').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dropCSV(event)">
+              <div style="font-size:2.5rem;margin-bottom:.75rem">📂</div>
+              <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:.25rem">Arraste o arquivo ou clique para selecionar</div>
+              <div style="font-size:12px;color:var(--text-muted)">Suporta .csv · UTF-8</div>
+              <input type="file" id="cfile" accept=".csv" style="display:none" onchange="readCSV(this)"/>
+            </div>
+            <div id="csv-msg" style="display:none;margin-top:.75rem;padding:10px 14px;border-radius:8px;font-size:13px"></div>
+            <div id="csv-prev" style="display:none;margin-top:1.25rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+                <span style="font-size:13px;font-weight:600;color:var(--text)">Prévia — <span id="csv-rows">0</span> linha(s)</span>
+                <button class="btn bp bsm" onclick="importCSV()">✓ Confirmar importação</button>
+              </div>
+              <div class="tw" style="border-radius:10px;border:1px solid var(--border-light)"><table class="dt" id="csv-table"></table></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">📥 Exportar dados</span></div>
+          <div class="cb">
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem">Baixe a lista atual de parceiros em formato CSV.</p>
+            <button class="btn bo" onclick="exportCSV()">⬇ Baixar CSV completo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: USUÁRIOS -->
+      <div class="page" id="page-usuarios">
+        <div class="pey">Controle de acesso</div>
+        <div class="pt">Usuários & Permissões</div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">👤 Usuários cadastrados</span><button class="btn bp bsm" onclick="openAddUser()">+ Novo usuário</button></div>
+            <div id="users-list" style="padding:.25rem 1.25rem"></div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">🔒 Níveis de permissão</span></div>
+            <div class="cb">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="background:var(--bg3);border-radius:10px;padding:1rem"><div style="font-weight:600;color:var(--text);margin-bottom:.25rem">👑 Super Admin</div><div style="font-size:12px;color:var(--text-muted)">Acesso total: editar campanha, gerenciar usuários, deletar dados, auditoria completa.</div></div>
+                <div style="background:var(--bg3);border-radius:10px;padding:1rem"><div style="font-weight:600;color:var(--text);margin-bottom:.25rem">✏️ Admin</div><div style="font-size:12px;color:var(--text-muted)">Editar parceiros, metas, publicar updates. Não pode gerenciar usuários.</div></div>
+                <div style="background:var(--bg3);border-radius:10px;padding:1rem"><div style="font-weight:600;color:var(--text);margin-bottom:.25rem">👁️ Visualizador</div><div style="font-size:12px;color:var(--text-muted)">Somente leitura. Não pode editar nenhum dado.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: CONFIG -->
+      <div class="page" id="page-config">
+        <div class="pey">Sistema</div>
+        <div class="pt">Configurações da Campanha</div>
+        <div class="g2">
+          <div class="card">
+            <div class="ch"><span class="ct">📋 Dados gerais</span><button class="btn bp bsm" onclick="saveConfig()">💾 Salvar</button></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">Nome da campanha</label><input class="fi" id="cfg-name" value="Founding Partners — CCG Monte Calvário"/></div>
+              <div class="fg"><label class="fl">Meta total (R$)</label><div class="ig"><span class="ip">R$</span><input type="number" id="cfg-goal" value="200000"/></div></div>
+              <div class="fg"><label class="fl">Meta de parceiros</label><div class="ig"><span class="ip">#</span><input type="number" id="cfg-pgoal" value="100"/></div></div>
+              <div class="fr">
+                <div class="fg" style="margin:0"><label class="fl">Data início</label><input class="fi" type="date" id="cfg-start" value="2025-06-01"/></div>
+                <div class="fg" style="margin:0"><label class="fl">Data fim</label><input class="fi" type="date" id="cfg-end" value="2025-09-30"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch"><span class="ct">🌍 Textos multilíngue</span><button class="btn bp bsm" onclick="saveConfig()">💾 Salvar</button></div>
+            <div class="cb">
+              <div class="fg"><label class="fl">Título PT 🇧🇷</label><input class="fi" id="cfg-pt" value="Construindo um lugar sagrado para todos."/></div>
+              <div class="fg"><label class="fl">Título EN 🇬🇧</label><input class="fi" id="cfg-en" value="Building a sacred place for all."/></div>
+              <div class="fg"><label class="fl">Título ES 🇪🇸</label><input class="fi" id="cfg-es" value="Construyendo un lugar sagrado para todos."/></div>
+              <div class="fg"><label class="fl">Descrição PT</label><textarea class="fi" id="cfg-desc" rows="3">Cada contribuição é um tijolo nessa história.</textarea></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ch"><span class="ct">🏅 Thresholds de badge (R$)</span><button class="btn bp bsm" onclick="toast('Níveis salvos!','success')">Salvar</button></div>
+          <div class="cb">
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:1rem">Valor mínimo de contribuição total para cada nível.</p>
+            <div class="g4">
+              <div class="fg"><label class="fl">💎 Diamante</label><div class="ig"><span class="ip">R$</span><input type="number" id="b-dia" value="5000"/></div></div>
+              <div class="fg"><label class="fl">🥇 Ouro</label><div class="ig"><span class="ip">R$</span><input type="number" id="b-ouro" value="2000"/></div></div>
+              <div class="fg"><label class="fl">🥈 Prata</label><div class="ig"><span class="ip">R$</span><input type="number" id="b-prata" value="1000"/></div></div>
+              <div class="fg"><label class="fl">🥉 Bronze</label><div class="ig"><span class="ip">R$</span><input type="number" id="b-bronze" value="1"/></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE: AUDITORIA -->
+      <div class="page" id="page-audit">
+        <div class="pey">Rastreabilidade</div>
+        <div class="pt">Histórico de Ações</div>
+        <div class="card">
+          <div class="ch">
+            <span class="ct">Registro completo de atividades</span>
+            <div style="display:flex;gap:8px">
+              <select class="fs" id="log-filter" style="padding:6px 12px;font-size:12px;width:130px" onchange="renderFullLog()">
+                <option value="">Todos</option>
+                <option value="dg2">✅ Sucesso</option>
+                <option value="db">ℹ️ Info</option>
+                <option value="dy2">⚠️ Aviso</option>
+              </select>
+              <button class="btn bd bsm" onclick="clearLogs()">🗑 Limpar</button>
+            </div>
+          </div>
+          <div id="full-log" style="padding:.25rem 1.25rem;max-height:500px;overflow-y:auto"></div>
+        </div>
+      </div>
+
+    </div><!-- /mc -->
+  </div>
+</div>
+
+<!-- MODAL: PARCEIRO -->
+<div class="mo" id="modal-donor">
+  <div class="modal">
+    <div class="mh"><span class="mt2" id="md-title">Novo Parceiro</span><button class="mx" onclick="closeModal('modal-donor')">×</button></div>
+    <div class="mb">
+      <input type="hidden" id="edit-idx" value="-1"/>
+      <div class="fr">
+        <div class="fg"><label class="fl">Nome completo *</label><input class="fi" id="d-name" placeholder="Ex: Família Silva"/></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="d-phone" placeholder="11999990000"/></div>
+      </div>
+      <div class="fg"><label class="fl">Nível / Badge</label>
+        <select class="fs" id="d-badge">
+          <option value="Diamante">💎 Diamante (R$5.000+)</option>
+          <option value="Ouro">🥇 Ouro (R$2.000+)</option>
+          <option value="Prata" selected>🥈 Prata (R$1.000+)</option>
+          <option value="Bronze">🥉 Bronze</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label class="fl">Contribuições mensais (R$)</label>
+        <div class="g4" style="gap:8px">
+          <div class="ig"><span class="ip" style="font-size:10px">JUN</span><input type="number" id="d-jun" placeholder="0"/></div>
+          <div class="ig"><span class="ip" style="font-size:10px">JUL</span><input type="number" id="d-jul" placeholder="0"/></div>
+          <div class="ig"><span class="ip" style="font-size:10px">AGO</span><input type="number" id="d-ago" placeholder="0"/></div>
+          <div class="ig"><span class="ip" style="font-size:10px">SET</span><input type="number" id="d-set" placeholder="0"/></div>
+        </div>
+      </div>
+      <div class="fg"><label class="fl">Nome para o mural da placa</label><input class="fi" id="d-mural" placeholder="Como aparece na placa (opcional)"/></div>
+    </div>
+    <div class="mf">
+      <button class="btn bo" onclick="closeModal('modal-donor')">Cancelar</button>
+      <button class="btn bp" onclick="saveDonor()">💾 Salvar parceiro</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: USUÁRIO -->
+<div class="mo" id="modal-user">
+  <div class="modal" style="max-width:400px">
+    <div class="mh"><span class="mt2">Novo Usuário</span><button class="mx" onclick="closeModal('modal-user')">×</button></div>
+    <div class="mb">
+      <div class="fg"><label class="fl">Nome</label><input class="fi" id="u-name" placeholder="Nome do administrador"/></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="u-email" placeholder="email@ccg.com.br"/></div>
+      <div class="fg"><label class="fl">Perfil</label>
+        <select class="fs" id="u-role">
+          <option value="superadmin">👑 Super Admin</option>
+          <option value="admin">✏️ Admin</option>
+          <option value="viewer">👁️ Visualizador</option>
+        </select>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn bo" onclick="closeModal('modal-user')">Cancelar</button>
+      <button class="btn bp" onclick="saveUser()">Criar usuário</button>
+    </div>
+  </div>
+</div>
+
+<div class="tw2" id="toasts"></div>
+
+<script>
+// ═══ STATE ═══
+let CU = null;
+const S = {
+  goal:200000, raised:21300, partners:7,
+  months:[
+    {name:'Junho',target:50000,raised:7000},
+    {name:'Julho',target:50000,raised:5800},
+    {name:'Agosto',target:50000,raised:4800},
+    {name:'Setembro',target:50000,raised:3700},
+  ],
+  donors:[
+    {name:'Família Silva',   ini:'FS',phone:'11999990001',badge:'Diamante',months:[2000,1500,1000,500], total:5000,mural:'Família Silva',   ms:'approved'},
+    {name:'Pr. João Santos', ini:'JS',phone:'11999990002',badge:'Ouro',    months:[1500,1200,900,600],  total:4200,mural:'Pr. João Santos', ms:'approved'},
+    {name:'Maria Oliveira',  ini:'MO',phone:'11999990003',badge:'Ouro',    months:[1200,1000,800,800],  total:3800,mural:'Maria Oliveira',  ms:'pending'},
+    {name:'Carlos Mendes',   ini:'CM',phone:'11999990004',badge:'Prata',   months:[800,700,700,600],    total:2800,mural:'Carlos Mendes',   ms:'pending'},
+    {name:'Ana Lima',        ini:'AL',phone:'11999990005',badge:'Prata',   months:[600,600,500,500],    total:2200,mural:'Ana Lima',        ms:'approved'},
+    {name:'Roberto Souza',   ini:'RS',phone:'11999990006',badge:'Bronze',  months:[500,450,450,400],    total:1800,mural:'Roberto Souza',   ms:'pending'},
+    {name:'Fernanda Costa',  ini:'FC',phone:'11999990007',badge:'Bronze',  months:[400,400,400,300],    total:1500,mural:'Fernanda Costa',  ms:'approved'},
+  ],
+  updates:[{id:1,title:'Campanha lançada! 🚀',body:'Hoje iniciamos a campanha Founding Partners. Juntos chegaremos à meta!',type:'milestone',date:'01/06/2025',vis:'public'}],
+  users:[
+    {name:'Lucas Admin',email:'lucas@ccg.com.br',role:'superadmin',ini:'LA'},
+    {name:'Pastor João', email:'joao@ccg.com.br', role:'admin',     ini:'PJ'},
+  ],
+  logs:[
+    {t:'dg2',txt:'Sistema inicializado.',time:'01/06/2025 09:00'},
+    {t:'db', txt:'Dashboard público sincronizado.',time:'01/06/2025 09:01'},
+  ]
+};
+
+// ═══ AUTH ═══
+function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const role=document.getElementById('l-role').value;
+  if(!email||pass!=='admin123'){document.getElementById('lerr').style.display='block';return;}
+  CU={email,role,ini:email.slice(0,2).toUpperCase(),name:email.split('@')[0]};
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('admin-app').style.display='block';
+  document.getElementById('sb-av').textContent=CU.ini;
+  document.getElementById('sb-name').textContent=CU.name;
+  document.getElementById('sb-role').textContent=role==='superadmin'?'Super Admin':role==='admin'?'Admin':'Visualizador';
+  addLog('db',`Login: ${email}`);
+  initAll();
+}
+document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+function doLogout(){document.getElementById('admin-app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('l-pass').value='';document.getElementById('lerr').style.display='none';}
+
+// ═══ NAV ═══
+const PTITLES={'visao-geral':'Visão Geral','metas':'Metas Mensais','parceiros':'Gerenciar Parceiros','ranking':'Ranking & Pódio','mural':'Mural dos Fundadores','updates':'Publicar Updates','csv':'Importar CSV','usuarios':'Usuários & Acesso','config':'Configurações','audit':'Auditoria'};
+function nav(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg)pg.classList.add('active');
+  if(btn)btn.classList.add('active');
+  document.getElementById('tb-title').textContent=PTITLES[id]||id;
+  if(window.innerWidth<=700)document.getElementById('sidebar').classList.remove('open');
+  if(id==='ranking')renderRanking();
+  if(id==='mural')renderMural();
+  if(id==='updates')renderUpdates();
+  if(id==='usuarios')renderUsers();
+  if(id==='audit')renderFullLog();
+}
+
+// ═══ INIT ═══
+function initAll(){
+  refreshStats();renderChart();renderMonthEd();renderTargetEd();renderDonorTable();renderMiniLog();
+  document.getElementById('q-total').value=S.raised;
+  document.getElementById('q-par').value=S.partners;
+  document.getElementById('q-goal').value=S.goal;
+}
+
+// ═══ STATS ═══
+function refreshStats(){
+  const pct=Math.min(100,Math.round(S.raised/S.goal*100));
+  const avg=S.partners>0?Math.round(S.raised/S.partners):0;
+  const best=[...S.months].sort((a,b)=>b.raised-a.raised)[0];
+  document.getElementById('ph-amt').textContent='R$ '+S.raised.toLocaleString('pt-BR');
+  document.getElementById('ph-pct').textContent=pct+'%';
+  document.getElementById('ph-rem').textContent='R$ '+(S.goal-S.raised).toLocaleString('pt-BR');
+  document.getElementById('s-par').textContent=S.partners;
+  document.getElementById('s-avg').textContent=fk(avg);
+  document.getElementById('s-best').textContent=best?best.name:'—';
+  document.getElementById('s-bestv').textContent=best?fk(best.raised):'—';
+  setTimeout(()=>{document.getElementById('ph-bar').style.width=pct+'%';},200);
+}
+
+// ═══ CHART ═══
+function renderChart(){
+  const mx=Math.max(...S.months.map(m=>Math.max(m.raised,m.target)),1);
+  document.getElementById('chart').innerHTML=S.months.map(m=>{
+    const h=Math.round(m.raised/mx*100);
+    const ht=Math.round(m.target/mx*100);
+    const p=Math.round(m.raised/m.target*100);
+    return`<div class="chart-col">
+      <div class="chart-val">${fk(m.raised)}</div>
+      <div style="display:flex;gap:3px;align-items:flex-end;width:100%;height:80px">
+        <div class="chart-bar" style="height:${h}%;flex:1"></div>
+        <div class="chart-bar goal" style="height:${ht}%;flex:1"></div>
+      </div>
+      <div class="chart-lbl">${m.name.slice(0,3)}</div>
+      <div style="font-size:10px;color:${p>=100?'var(--green)':'var(--text-dim)'}">${p}%</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══ MONTHS ═══
+function renderMonthEd(){
+  document.getElementById('month-ed').innerHTML=S.months.map((m,i)=>{
+    const p=Math.min(100,Math.round(m.raised/m.target*100));
+    return`<div class="mec">
+      <div class="mnt">${m.name}</div>
+      <div class="ig" id="me${i}"><span class="ip">R$</span><input type="number" id="mv${i}" value="${m.raised}" oninput="document.getElementById('me${i}').classList.add('ed')"/></div>
+      <div style="margin-top:8px"><div class="pw"><div class="pf" id="mp${i}" style="width:${p}%"></div></div>
+      <div style="font-size:11px;color:var(--text-dim);text-align:right;margin-top:3px">${p}%</div></div>
+    </div>`;
+  }).join('');
+}
+function renderTargetEd(){
+  document.getElementById('target-ed').innerHTML=S.months.map((m,i)=>`
+    <div class="mec"><div class="mnt">${m.name}</div>
+    <div class="ig"><span class="ip">R$</span><input type="number" id="mt${i}" value="${m.target}"/></div>
+    </div>`).join('');
+}
+function saveMonths(){
+  S.months.forEach((m,i)=>{m.raised=parseInt(document.getElementById('mv'+i).value)||0;});
+  S.raised=S.months.reduce((s,m)=>s+m.raised,0);
+  document.querySelectorAll('[id^=me]').forEach(el=>el.classList.remove('ed'));
+  refreshStats();renderChart();addLog('dg2',`Metas mensais atualizadas por ${CU.email}`);toast('Metas salvas!','success');
+}
+function saveTargets(){
+  S.months.forEach((m,i)=>{m.target=parseInt(document.getElementById('mt'+i).value)||50000;});
+  renderMonthEd();addLog('db',`Metas-alvo atualizadas por ${CU.email}`);toast('Metas-alvo salvas!','success');
+}
+
+// ═══ QUICK ═══
+function saveQuick(){
+  S.raised=parseInt(document.getElementById('q-total').value)||0;
+  S.partners=parseInt(document.getElementById('q-par').value)||0;
+  S.goal=parseInt(document.getElementById('q-goal').value)||200000;
+  document.querySelectorAll('.ig.ed').forEach(el=>el.classList.remove('ed'));
+  refreshStats();addLog('dg2',`Total atualizado: R$ ${S.raised.toLocaleString('pt-BR')} por ${CU.email}`);toast('Valores salvos!','success');
+}
+function sync(){addLog('db',`Dashboard sincronizado por ${CU.email}`);toast('Dashboard sincronizado!','success');}
+
+// ═══ DONORS ═══
+function bc(b){return{Diamante:'bd-dia',Ouro:'bd-ouro',Prata:'bd-prata',Bronze:'bd-bronze'}[b]||'';}
+function renderDonorTable(list){
+  const ds=list||[...S.donors].sort((a,b)=>b.total-a.total);
+  document.getElementById('d-count').textContent=`(${ds.length})`;
+  document.getElementById('d-table').innerHTML=`
+    <thead><tr><th>#</th><th>Parceiro</th><th>WhatsApp</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Total</th><th>Nível</th><th>Mural</th><th>Ações</th></tr></thead>
+    <tbody>${ds.map((d,i)=>`<tr>
+      <td style="color:var(--text-dim);font-weight:600">${i+1}</td>
+      <td><div style="display:flex;align-items:center;gap:8px"><span class="av av-sm">${d.ini}</span>${d.name}</div></td>
+      <td style="color:var(--text-muted)">${d.phone||'—'}</td>
+      <td>R$${(d.months[0]||0).toLocaleString('pt-BR')}</td>
+      <td>R$${(d.months[1]||0).toLocaleString('pt-BR')}</td>
+      <td>R$${(d.months[2]||0).toLocaleString('pt-BR')}</td>
+      <td>R$${(d.months[3]||0).toLocaleString('pt-BR')}</td>
+      <td style="font-weight:600;color:var(--accent-light)">R$${d.total.toLocaleString('pt-BR')}</td>
+      <td><span class="badge ${bc(d.badge)}">${d.badge}</span></td>
+      <td><span class="badge ${d.ms==='approved'?'bd-green':'bd-yellow'}">${d.ms==='approved'?'✓ Aprovado':'⏳ Pendente'}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn bo bsm" onclick="openEdit(${S.donors.indexOf(d)})">Editar</button>
+        <button class="btn bd bsm" onclick="delDonor(${S.donors.indexOf(d)})">✕</button>
+      </td>
+    </tr>`).join('')}</tbody>`;
+}
+function filterDonors(){
+  const q=document.getElementById('d-search').value.toLowerCase();
+  const lvl=document.getElementById('d-filter').value;
+  renderDonorTable(S.donors.filter(d=>(!q||d.name.toLowerCase().includes(q))&&(!lvl||d.badge===lvl)));
+}
+function openAdd(){
+  document.getElementById('md-title').textContent='Novo Parceiro';
+  document.getElementById('edit-idx').value=-1;
+  ['d-name','d-phone','d-mural'].forEach(id=>document.getElementById(id).value='');
+  ['d-jun','d-jul','d-ago','d-set'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('d-badge').value='Prata';
+  openModal('modal-donor');
+}
+function openEdit(idx){
+  const d=S.donors[idx];
+  document.getElementById('md-title').textContent='Editar Parceiro';
+  document.getElementById('edit-idx').value=idx;
+  document.getElementById('d-name').value=d.name;
+  document.getElementById('d-phone').value=d.phone||'';
+  document.getElementById('d-badge').value=d.badge;
+  document.getElementById('d-mural').value=d.mural||'';
+  document.getElementById('d-jun').value=d.months[0]||'';
+  document.getElementById('d-jul').value=d.months[1]||'';
+  document.getElementById('d-ago').value=d.months[2]||'';
+  document.getElementById('d-set').value=d.months[3]||'';
+  openModal('modal-donor');
+}
+function saveDonor(){
+  const idx=parseInt(document.getElementById('edit-idx').value);
+  const name=document.getElementById('d-name').value.trim();
+  if(!name){toast('Nome obrigatório','error');return;}
+  const phone=document.getElementById('d-phone').value.trim();
+  const badge=document.getElementById('d-badge').value;
+  const mural=document.getElementById('d-mural').value.trim()||name;
+  const months=[parseInt(document.getElementById('d-jun').value)||0,parseInt(document.getElementById('d-jul').value)||0,parseInt(document.getElementById('d-ago').value)||0,parseInt(document.getElementById('d-set').value)||0];
+  const total=months.reduce((s,v)=>s+v,0);
+  const ini=name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()||'??';
+  if(idx===-1){S.donors.push({name,ini,phone,badge,months,total,mural,ms:'pending'});addLog('dg2',`Novo parceiro: ${name}`);toast(`${name} adicionado!`,'success');}
+  else{Object.assign(S.donors[idx],{name,ini,phone,badge,months,total,mural});addLog('db',`Parceiro editado: ${name}`);toast(`${name} atualizado!`,'success');}
+  S.partners=S.donors.length;S.raised=S.donors.reduce((s,d)=>s+d.total,0);
+  renderDonorTable();refreshStats();renderChart();renderMural();renderRanking();renderBadgeStats();
+  closeModal('modal-donor');
+}
+function delDonor(idx){
+  const name=S.donors[idx].name;
+  if(!confirm(`Remover "${name}"?`))return;
+  S.donors.splice(idx,1);S.partners=S.donors.length;S.raised=S.donors.reduce((s,d)=>s+d.total,0);
+  renderDonorTable();refreshStats();renderChart();renderRanking();
+  addLog('dy2',`Parceiro removido: ${name}`);toast(`${name} removido.`,'info');
+}
+
+// ═══ RANKING ═══
+function renderRanking(){
+  const sorted=[...S.donors].sort((a,b)=>b.total-a.total);
+  const top3=sorted.slice(0,3);
+  const order=[top3[1],top3[0],top3[2]];
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('podium').innerHTML=`<div class="pod-grid">${order.map((d,vi)=>{
+    if(!d)return'<div></div>';
+    const r=top3.indexOf(d),isF=r===0;
+    const bc2=r===0?'bd-ouro':r===1?'bd-prata':'bd-bronze';
+    return`<div class="pod-card ${isF?'first':''}">
+      ${isF?'<span class="pod-crown">👑</span>':''}
+      <span class="av ${isF?'av-lg':'av-md'}" style="margin:0 auto">${d.ini}</span>
+      <div class="pod-name">${d.name}</div>
+      <div class="pod-amt">${fk(d.total)}</div>
+      <div style="margin-top:6px"><span class="badge ${bc2}">${medals[r]} ${d.badge}</span></div>
+    </div>`;
+  }).join('')}</div>`;
+  document.getElementById('rank-list').innerHTML=sorted.slice(0,10).map((d,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border-light)">
+      <span style="font-size:12px;font-weight:700;color:var(--text-dim);width:20px;text-align:center">${i+1}</span>
+      <span class="av av-sm">${d.ini}</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--text)">${d.name}</div><span class="badge ${bc(d.badge)}">${d.badge}</span></div>
+      <span style="font-size:13px;font-weight:600;color:var(--accent-light)">${fk(d.total)}</span>
+    </div>`).join('');
+}
+function renderBadgeStats(){
+  const counts={Diamante:0,Ouro:0,Prata:0,Bronze:0};
+  S.donors.forEach(d=>{if(counts[d.badge]!==undefined)counts[d.badge]++;});
+  document.getElementById('badge-stats').innerHTML=Object.entries(counts).map(([b,c])=>`
+    <div class="sc"><div class="sl">${b}</div><div class="sv">${c}</div>
+    <div style="margin-top:8px"><div class="pw"><div class="pf" style="width:${S.donors.length?Math.round(c/S.donors.length*100):0}%"></div></div></div>
+    <div class="sd dg">${S.donors.length?Math.round(c/S.donors.length*100):0}% dos parceiros</div></div>`).join('');
+}
+
+// ═══ MURAL ═══
+function renderMural(){
+  const appr=S.donors.filter(d=>d.ms==='approved');
+  const pend=S.donors.filter(d=>d.ms==='pending');
+  document.getElementById('appr-cnt').textContent=appr.length+' nomes';
+  document.getElementById('pend-cnt').textContent=pend.length+' pendentes';
+  document.getElementById('mural-appr').innerHTML=appr.map(d=>`<span class="nc appr" onclick="toggleMural(${S.donors.indexOf(d)})">${d.mural||d.name} ✓</span>`).join('');
+  document.getElementById('mural-pend').innerHTML=pend.map(d=>`<span class="nc pend" onclick="toggleMural(${S.donors.indexOf(d)})" title="Clique para aprovar">${d.mural||d.name} ⏳</span>`).join('');
+}
+function toggleMural(idx){
+  const d=S.donors[idx];d.ms=d.ms==='approved'?'pending':'approved';
+  renderMural();renderDonorTable();
+  toast(d.ms==='approved'?`${d.name} aprovado!`:`${d.name} movido para pendente.`,d.ms==='approved'?'success':'info');
+}
+function addMural(){
+  const name=document.getElementById('mural-new').value.trim();
+  if(!name){toast('Digite um nome','error');return;}
+  S.donors.push({name,ini:name.slice(0,2).toUpperCase(),phone:'',badge:'Bronze',months:[0,0,0,0],total:0,mural:name,ms:'approved'});
+  S.partners=S.donors.length;
+  document.getElementById('mural-new').value='';
+  renderMural();renderDonorTable();refreshStats();
+  addLog('dg2',`Nome adicionado ao mural: ${name}`);toast(`${name} adicionado!`,'success');
+}
+
+// ═══ UPDATES ═══
+function renderUpdates(){
+  const icons={milestone:'🎉',update:'📢',thanks:'🙏',urgent:'🔥'};
+  document.getElementById('upd-cnt').textContent=S.updates.length;
+  document.getElementById('upd-list').innerHTML=S.updates.length===0
+    ?'<p style="font-size:13px;color:var(--text-dim);padding:.5rem 0">Nenhum update publicado ainda.</p>'
+    :[...S.updates].reverse().map(u=>`
+      <div class="ui">
+        <div class="ui-hdr">
+          <div style="display:flex;align-items:center;gap:8px"><span>${icons[u.type]||'📢'}</span><span style="font-size:13px;font-weight:600;color:var(--text)">${u.title}</span></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="badge ${u.vis==='public'?'bd-blue':'bd-green'}">${u.vis==='public'?'Público':'Parceiros'}</span>
+            <span class="ui-date">${u.date}</span>
+            <button class="btn bd bsm" onclick="delUpd(${u.id})">✕</button>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">${u.body}</div>
+      </div>`).join('');
+}
+function publishUpd(){
+  const title=document.getElementById('upd-t').value.trim();
+  const body=document.getElementById('upd-b').value.trim();
+  if(!title||!body){toast('Título e mensagem são obrigatórios','error');return;}
+  const now=new Date();
+  const date=`${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+  S.updates.push({id:Date.now(),title,body,type:document.getElementById('upd-type').value,vis:document.getElementById('upd-vis').value,date});
+  document.getElementById('upd-t').value='';document.getElementById('upd-b').value='';
+  renderUpdates();addLog('dg2',`Update publicado: "${title}"`);toast('Update publicado!','success');
+}
+function delUpd(id){S.updates=S.updates.filter(u=>u.id!==id);renderUpdates();toast('Update removido.','info');}
+
+// ═══ CSV ═══
+let csvP=[];
+function dropCSV(e){e.preventDefault();document.getElementById('cdrop').classList.remove('over');if(e.dataTransfer.files[0])parseCSV(e.dataTransfer.files[0]);}
+function readCSV(input){if(input.files[0])parseCSV(input.files[0]);}
+function parseCSV(file){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const lines=e.target.result.split('\n').filter(l=>l.trim());
+    csvP=[];
+    lines.forEach((line,li)=>{
+      const cols=line.split(',').map(c=>c.trim());
+      if(li===0&&isNaN(Number(cols[2])))return;
+      if(cols.length<6)return;
+      csvP.push({name:cols[0],phone:cols[1],jun:parseInt(cols[2])||0,jul:parseInt(cols[3])||0,ago:parseInt(cols[4])||0,set:parseInt(cols[5])||0,total:parseInt(cols[6])||(parseInt(cols[2])+parseInt(cols[3])+parseInt(cols[4])+parseInt(cols[5])),badge:cols[7]||'Bronze'});
+    });
+    const sm=document.getElementById('csv-msg');
+    if(!csvP.length){
+      sm.style.cssText='display:block;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red)';
+      sm.textContent='⚠ Nenhuma linha válida. Verifique o formato.';
+      document.getElementById('csv-prev').style.display='none';return;
+    }
+    sm.style.cssText='display:block;background:rgba(76,175,125,.1);border:1px solid rgba(76,175,125,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--green)';
+    sm.textContent=`✓ ${csvP.length} linha(s) encontrada(s). Revise e confirme abaixo.`;
+    document.getElementById('csv-rows').textContent=csvP.length;
+    document.getElementById('csv-table').innerHTML=`<thead><tr><th>Nome</th><th>WhatsApp</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Total</th><th>Badge</th></tr></thead><tbody>${csvP.map(r=>`<tr><td>${r.name}</td><td>${r.phone}</td><td>R$${r.jun}</td><td>R$${r.jul}</td><td>R$${r.ago}</td><td>R$${r.set}</td><td><strong>R$${r.total}</strong></td><td>${r.badge}</td></tr>`).join('')}</tbody>`;
+    document.getElementById('csv-prev').style.display='block';
+  };
+  reader.readAsText(file);
+}
+function importCSV(){
+  if(!csvP.length)return;
+  csvP.forEach(r=>{const ini=r.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();S.donors.push({name:r.name,ini,phone:r.phone,badge:r.badge,months:[r.jun,r.jul,r.ago,r.set],total:r.total,mural:r.name,ms:'pending'});});
+  S.partners=S.donors.length;S.raised=S.donors.reduce((s,d)=>s+d.total,0);
+  renderDonorTable();refreshStats();renderChart();renderMural();renderRanking();renderBadgeStats();
+  addLog('dg2',`CSV importado: ${csvP.length} parceiros por ${CU.email}`);toast(`${csvP.length} parceiros importados!`,'success');
+  document.getElementById('csv-prev').style.display='none';document.getElementById('csv-msg').style.display='none';csvP=[];
+}
+function exportCSV(){
+  const hdr='nome,whatsapp,junho,julho,agosto,setembro,total,badge\n';
+  const rows=S.donors.map(d=>`${d.name},${d.phone||''},${d.months[0]||0},${d.months[1]||0},${d.months[2]||0},${d.months[3]||0},${d.total},${d.badge}`).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([hdr+rows],{type:'text/csv'}));
+  a.download='parceiros-ccg-monte-calvario.csv';a.click();
+  addLog('db',`CSV exportado por ${CU.email}`);toast('CSV baixado!','success');
+}
+
+// ═══ USERS ═══
+function renderUsers(){
+  const rl={superadmin:'👑 Super Admin',admin:'✏️ Admin',viewer:'👁️ Visualizador'};
+  document.getElementById('users-list').innerHTML=S.users.map((u,i)=>`
+    <div class="ucard">
+      <div class="av av-md">${u.ini}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">${u.name}</div><div style="font-size:11px;color:var(--text-muted)">${u.email}</div></div>
+      <span class="badge bd-blue">${rl[u.role]||u.role}</span>
+      <button class="btn bd bsm" onclick="delUser(${i})">✕</button>
+    </div>`).join('');
+}
+function openAddUser(){openModal('modal-user');}
+function saveUser(){
+  const name=document.getElementById('u-name').value.trim();
+  const email=document.getElementById('u-email').value.trim();
+  const role=document.getElementById('u-role').value;
+  if(!name||!email){toast('Nome e email obrigatórios','error');return;}
+  S.users.push({name,email,role,ini:name.slice(0,2).toUpperCase()});
+  renderUsers();addLog('db',`Usuário criado: ${email}`);toast(`${name} adicionado!`,'success');
+  closeModal('modal-user');
+  document.getElementById('u-name').value='';document.getElementById('u-email').value='';
+}
+function delUser(i){
+  if(!confirm(`Remover "${S.users[i].name}"?`))return;
+  addLog('dy2',`Usuário removido: ${S.users[i].email}`);S.users.splice(i,1);renderUsers();toast('Usuário removido.','info');
+}
+
+// ═══ CONFIG ═══
+function saveConfig(){
+  S.goal=parseInt(document.getElementById('cfg-goal').value)||200000;
+  refreshStats();addLog('db',`Configurações salvas por ${CU.email}`);toast('Configurações salvas!','success');
+}
+
+// ═══ LOGS ═══
+function addLog(t,txt){
+  const now=new Date();
+  const time=`${now.toLocaleDateString('pt-BR')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  S.logs.unshift({t,txt,time});renderMiniLog();
+  if(document.getElementById('page-audit').classList.contains('active'))renderFullLog();
+}
+function renderMiniLog(){
+  document.getElementById('mini-log').innerHTML=S.logs.slice(0,5).map(l=>`
+    <div class="li"><div class="ldot ${l.t}"></div><div><div class="lt">${l.txt}</div><div class="ltime">${l.time}</div></div></div>`).join('');
+}
+function renderFullLog(){
+  const f=document.getElementById('log-filter')?.value||'';
+  const logs=f?S.logs.filter(l=>l.t===f):S.logs;
+  document.getElementById('full-log').innerHTML=logs.length===0
+    ?'<p style="font-size:13px;color:var(--text-dim);padding:.5rem 0">Nenhum log.</p>'
+    :logs.map(l=>`<div class="li"><div class="ldot ${l.t}"></div><div><div class="lt">${l.txt}</div><div class="ltime">${l.time}</div></div></div>`).join('');
+}
+function clearLogs(){if(!confirm('Limpar todos os logs?'))return;S.logs.length=0;renderMiniLog();renderFullLog();toast('Logs limpos.','info');}
+
+// ═══ MODAL ═══
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.mo').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
+
+// ═══ TOAST ═══
+function toast(msg,type='info'){
+  const icons={success:'✓',error:'✕',info:'ℹ'};
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<span>${icons[type]}</span><span>${msg}</span>`;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),3500);
+}
+
+// ═══ UTILS ═══
+function fk(n){return n>=1000?'R$'+(n/1000).toFixed(1).replace('.0','')+'k':'R$'+n;}
+</script>
+</body>
+</html>

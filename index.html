@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founding Partners — CCG Monte Calvário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #4A90D9;
+    --gold-light: #7DB8F0;
+    --gold-dark: #002047;
+    --cream: #F0F6FF;
+    --cream-dark: #C8DCEF;
+    --bg: #060C14;
+    --bg2: #0A1220;
+    --bg3: #0F1A2E;
+    --bg4: #152338;
+    --border: rgba(74,144,217,0.25);
+    --border-light: rgba(74,144,217,0.12);
+    --text: #E8EEF8;
+    --text-muted: #8AABCC;
+    --text-dim: #4A6A8A;
+    --green: #4CAF7D;
+    --green-bg: rgba(76,175,125,0.1);
+    --red: #E05C5C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,10,8,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-mark {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bg);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .lang-btn.active, .lang-btn:hover {
+    background: var(--border);
+    color: var(--gold-light);
+    border-color: var(--gold-dark);
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── PROGRESS TICKER ── */
+  .progress-ticker {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 clamp(1rem, 4vw, 3rem);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow: hidden;
+    height: 40px;
+  }
+
+  .ticker-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ticker-bar-wrap {
+    flex: 1;
+    height: 4px;
+    background: var(--bg4);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ticker-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ticker-pct {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 6vw, 4rem);
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: rgba(201,168,76,0.06);
+  }
+
+  .hero-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.12;
+    color: var(--cream);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 460px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-secondary:hover {
+    background: var(--border-light);
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  /* Hero right: big progress card */
+  .hero-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-raised-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-raised-amount {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-raised-goal {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-raised-goal span {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  .progress-track {
+    height: 8px;
+    background: var(--bg4);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 60%, var(--gold-light) 100%);
+    border-radius: 4px;
+    transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold-light);
+    box-shadow: 0 0 10px rgba(201,168,76,0.6);
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .progress-pct {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold-light);
+  }
+
+  .progress-remaining {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .progress-remaining strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .hero-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+  }
+
+  .hero-stat {
+    background: var(--bg3);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .hero-stat-val {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cream);
+    display: block;
+    line-height: 1.2;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+
+  /* ── METRICS GRID ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .metric-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 1.25rem 1.25rem 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .metric-card:hover {
+    border-color: var(--border);
+  }
+
+  .metric-card.gold {
+    border-color: var(--border);
+    background: linear-gradient(135deg, var(--bg2) 0%, rgba(201,168,76,0.06) 100%);
+  }
+
+  .metric-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    margin-bottom: 1rem;
+    background: rgba(201,168,76,0.1);
+  }
+
+  .metric-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .metric-delta {
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+
+  /* ── MONTHLY GOALS ── */
+  .months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .month-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 1.25rem;
+    transition: all 0.2s;
+  }
+
+  .month-card:hover {
+    border-color: var(--border);
+    transform: translateY(-2px);
+  }
+
+  .month-card.active {
+    border-color: var(--border);
+    background: linear-gradient(135deg, var(--bg2) 0%, rgba(201,168,76,0.05) 100%);
+  }
+
+  .month-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .month-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .month-status {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  .status-active {
+    background: rgba(76,175,125,0.12);
+    color: var(--green);
+    border: 1px solid rgba(76,175,125,0.2);
+  }
+
+  .status-upcoming {
+    background: var(--bg4);
+    color: var(--text-dim);
+    border: 1px solid var(--border-light);
+  }
+
+  .status-done {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold-light);
+    border: 1px solid var(--border);
+  }
+
+  .month-amounts {
+    margin-bottom: 0.75rem;
+  }
+
+  .month-raised {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .month-target {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .month-bar {
+    height: 5px;
+    background: var(--bg4);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .month-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  }
+
+  .month-bar-fill.green {
+    background: linear-gradient(90deg, #2D7A50, var(--green));
+  }
+
+  .month-pct {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ── LEADERBOARD ── */
+  .leaderboard-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 680px) {
+    .leaderboard-wrap { grid-template-columns: 1fr; }
+  }
+
+  .top3-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: end;
+  }
+
+  .podium-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .podium-card:hover { border-color: var(--border); }
+
+  .podium-card.first {
+    border-color: var(--border);
+    background: linear-gradient(180deg, rgba(201,168,76,0.08) 0%, var(--bg2) 100%);
+    padding-top: 1.5rem;
+  }
+
+  .podium-crown {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
+
+  .podium-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--bg);
+    margin: 0 auto 0.5rem;
+    border: 2px solid var(--border);
+  }
+
+  .podium-card.first .podium-avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+    border-color: var(--gold);
+  }
+
+  .podium-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .podium-amount {
+    font-size: 11px;
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  .podium-rank {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .table-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-light);
+    transition: background 0.15s;
+  }
+
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: rgba(201,168,76,0.03); }
+
+  .row-rank {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  .row-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .row-badge {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+
+  .row-amount {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border-light);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── LEGACY WALL ── */
+  .legacy-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .legacy-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .legacy-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .legacy-ornament {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .ornament-line {
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border));
+  }
+
+  .ornament-line.right {
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  .ornament-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  .legacy-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  .legacy-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .names-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .name-chip {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: var(--text-muted);
+    padding: 6px 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 100px;
+    background: var(--bg3);
+    transition: all 0.2s;
+  }
+
+  .name-chip:hover {
+    border-color: var(--border);
+    color: var(--gold-light);
+  }
+
+  .name-chip.placeholder {
+    color: var(--text-dim);
+    border-style: dashed;
+    font-style: italic;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+  }
+
+  /* ── ACTIVITY FEED ── */
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .activity-item {
+    background: var(--bg2);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+
+  .activity-item:hover { background: var(--bg3); }
+
+  .activity-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bg);
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  }
+
+  .activity-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .activity-text {
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .activity-text strong {
+    font-weight: 600;
+    color: var(--cream);
+  }
+
+  .activity-time {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+
+  .activity-amount {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+    flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border-light);
+    padding: 2rem clamp(1rem, 4vw, 3rem);
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-text a {
+    color: var(--gold-dark);
+    text-decoration: none;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── BADGE LEVELS ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  .badge-gold {
+    background: rgba(255,215,0,0.15);
+    color: #FFD700;
+    border: 1px solid rgba(255,215,0,0.3);
+  }
+
+  .badge-silver {
+    background: rgba(192,192,192,0.15);
+    color: #D8D8D8;
+    border: 1px solid rgba(192,192,192,0.3);
+  }
+
+  .badge-bronze {
+    background: rgba(205,127,50,0.15);
+    color: #E8A060;
+    border: 1px solid rgba(205,127,50,0.3);
+  }
+
+  /* ── MILESTONE ── */
+  .milestone-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .milestone-row::-webkit-scrollbar { display: none; }
+
+  .milestone-item {
+    flex-shrink: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    min-width: 160px;
+    text-align: center;
+  }
+
+  .milestone-item.reached {
+    border-color: var(--border);
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), var(--bg2));
+  }
+
+  .milestone-emoji {
+    font-size: 24px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .milestone-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+
+  .milestone-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .update-time {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  /* ── i18n hidden ── */
+  [data-lang] { display: none; }
+  [data-lang="pt"] { display: contents; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark" style="background:none;border:none;padding:0;width:36px;height:36px;">
+      <img src="img/logo-ccg.png" alt="CCG Monte Calvário" style="width:36px;height:36px;object-fit:contain;filter:brightness(0) invert(1);" />
+    </div>
+    <div>
+      <div class="nav-title" data-i18n="brand">Founding Partners</div>
+      <div class="nav-subtitle">CCG Monte Calvário</div>
+    </div>
+  </a>
+  <div class="nav-right">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      <span data-i18n="live">Ao vivo</span>
+    </div>
+    <button class="lang-btn active" onclick="setLang('pt')" title="Português">
+      <img src="flags/pt.svg" alt="PT" style="width:20px;height:14px;object-fit:cover;border-radius:2px;" />
+    </button>
+    <button class="lang-btn" onclick="setLang('en')" title="English">
+      <img src="flags/en.svg" alt="EN" style="width:20px;height:14px;object-fit:cover;border-radius:2px;" />
+    </button>
+    <button class="lang-btn" onclick="setLang('es')" title="Español">
+      <img src="flags/es.svg" alt="ES" style="width:20px;height:14px;object-fit:cover;border-radius:2px;" />
+    </button>
+  </div>
+</nav>
+
+<!-- PROGRESS TICKER -->
+<div class="progress-ticker">
+  <span class="ticker-label" data-i18n="campaign_progress">Campanha 2026</span>
+  <div class="ticker-bar-wrap">
+    <div class="ticker-bar-fill" id="ticker-fill"></div>
+  </div>
+  <span class="ticker-pct" id="ticker-pct">0%</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left fade-in">
+    <div class="hero-eyebrow">
+      <span>✦</span>
+      <span data-i18n="eyebrow">Campanha de Construção · 2026</span>
+    </div>
+    <h1 class="hero-title">
+      <span data-i18n="hero_title_1">Construindo um lugar</span><br>
+      <em data-i18n="hero_title_2">sagrado para todos.</em>
+    </h1>
+    <p class="hero-desc" data-i18n="hero_desc">
+      Cada contribuição é um tijolo nessa história. Unidos, estamos erguendo não apenas um templo, mas um legado eterno para as próximas gerações em São Mateus, São Paulo.
+    </p>
+    <div class="hero-ctas">
+      <a href="#parceiros" class="btn-primary">
+        <span data-i18n="cta_join">Ser parceiro fundador</span> →
+      </a>
+      <a href="#metas" class="btn-secondary">
+        <span data-i18n="cta_learn">Ver progresso</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right fade-in" style="transition-delay: 0.15s;">
+    <div class="hero-card">
+      <div class="hero-raised-label" data-i18n="total_raised_label">TOTAL LEVANTADO</div>
+      <div class="hero-raised-amount" id="hero-amount">R$ —</div>
+      <div class="hero-raised-goal">
+        <span data-i18n="goal_prefix">Meta:</span>
+        <span style="color:var(--gold-light);font-weight:600"> R$ 200.000</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="hero-fill"></div>
+      </div>
+
+      <div class="progress-meta">
+        <div>
+          <div class="progress-pct" id="hero-pct">0%</div>
+          <div style="font-size:11px;color:var(--text-dim)" data-i18n="achieved">da meta alcançada</div>
+        </div>
+        <div class="progress-remaining">
+          <div style="font-size:11px;color:var(--text-dim)" data-i18n="remaining_label">faltam</div>
+          <strong id="hero-remaining">R$ 200.000</strong>
+        </div>
+      </div>
+
+      <div class="hero-stats-row">
+        <div class="hero-stat">
+          <span class="hero-stat-val" id="stat-partners">—</span>
+          <div class="hero-stat-label" data-i18n="stat_partners">Parceiros</div>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-val" id="stat-months">4</span>
+          <div class="hero-stat-label" data-i18n="stat_months">Meses</div>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-val" id="stat-avg">—</span>
+          <div class="hero-stat-label" data-i18n="stat_avg">Média/Parceiro</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- METRICS -->
+<section class="section fade-in" id="metricas">
+  <div class="section-header">
+    <div>
+      <div class="section-label" data-i18n="metrics_label">Painel de resultados</div>
+      <h2 class="section-title" data-i18n="metrics_title">Visão geral da campanha</h2>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card gold">
+      <div class="metric-icon">🏛️</div>
+      <div class="metric-value" id="m-raised">—</div>
+      <div class="metric-label" data-i18n="m_raised">Total levantado</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">👥</div>
+      <div class="metric-value" id="m-partners">—</div>
+      <div class="metric-label" data-i18n="m_partners">Parceiros ativos</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">📈</div>
+      <div class="metric-value" id="m-pct">—</div>
+      <div class="metric-label" data-i18n="m_pct">Da meta global</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">💎</div>
+      <div class="metric-value" id="m-avg">—</div>
+      <div class="metric-label" data-i18n="m_avg">Média por parceiro</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">🎯</div>
+      <div class="metric-value" id="m-remaining">—</div>
+      <div class="metric-label" data-i18n="m_remaining">Valor restante</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">🗓️</div>
+      <div class="metric-value">Set/25</div>
+      <div class="metric-label" data-i18n="m_deadline">Prazo da campanha</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MONTHLY GOALS -->
+<section class="section fade-in" id="metas">
+  <div class="section-header">
+    <div>
+      <div class="section-label" data-i18n="monthly_label">Metas mensais</div>
+      <h2 class="section-title" data-i18n="monthly_title">Progresso mês a mês</h2>
+    </div>
+  </div>
+
+  <div class="months-grid" id="months-grid"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MILESTONES -->
+<section class="section fade-in">
+  <div class="section-header">
+    <div>
+      <div class="section-label" data-i18n="milestones_label">Marcos da campanha</div>
+      <h2 class="section-title" data-i18n="milestones_title">Celebrando cada conquista</h2>
+    </div>
+  </div>
+
+  <div class="milestone-row" id="milestones-row"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEADERBOARD + ACTIVITY -->
+<section class="section fade-in" id="parceiros">
+  <div class="section-header">
+    <div>
+      <div class="section-label" data-i18n="ranking_label">Parceiros fundadores</div>
+      <h2 class="section-title" data-i18n="ranking_title">Ranking de contribuições</h2>
+    </div>
+  </div>
+
+  <div class="leaderboard-wrap">
+    <div>
+      <div style="margin-bottom:12px">
+        <div class="top3-grid" id="top3-grid"></div>
+      </div>
+      <div class="table-card" id="leaderboard-table"></div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:8px;font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em" data-i18n="activity_label">Atividade recente</div>
+      <div class="activity-list" id="activity-list"></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGACY WALL -->
+<div class="legacy-section fade-in">
+  <div class="legacy-inner">
+    <div class="legacy-ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line right"></div>
+    </div>
+    <h2 class="legacy-title" data-i18n="legacy_title">Mural dos Fundadores</h2>
+    <p class="legacy-subtitle" data-i18n="legacy_desc">
+      Esses nomes serão gravados em uma placa permanente na nova sede da CCG Monte Calvário — um legado eterno para todos que tornaram isso possível.
+    </p>
+
+    <div class="names-grid" id="names-grid"></div>
+
+    <p style="font-size:12px;color:var(--text-dim);margin-top:1rem" data-i18n="legacy_note">
+      * Conforme as contribuições são registradas. Nomes adicionados ao mural após confirmação.
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-text">© 2026 CCG Monte Calvário · São Mateus, São Paulo, Brasil</div>
+    <div class="footer-text" style="margin-top:4px" data-i18n="footer_desc">Plataforma de arrecadação transparente e segura.</div>
+  </div>
+  <div class="update-time" id="update-time"></div>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────
+const DATA = {
+  totalGoal: 200000,
+  totalRaised: 0,
+  totalPartners: 0,
+  months: [
+    { key: 'junho', name: { pt: 'Junho', en: 'June', es: 'Junio' }, target: 50000, raised: 0, status: 'upcoming' },
+    { key: 'julho', name: { pt: 'Julho', en: 'July', es: 'Julio' }, target: 50000, raised: 0, status: 'upcoming' },
+    { key: 'agosto', name: { pt: 'Agosto', en: 'August', es: 'Agosto' }, target: 50000, raised: 0, status: 'upcoming' },
+    { key: 'setembro', name: { pt: 'Setembro', en: 'September', es: 'Septiembre' }, target: 50000, raised: 0, status: 'upcoming' },
+  ],
+  donors: [
+    { name: 'Família Silva', initials: 'FS', total: 5000, badge: 'Diamante', months: [2000, 1500, 1000, 500] },
+    { name: 'Pr. João Santos', initials: 'JS', total: 4200, badge: 'Ouro', months: [1500, 1200, 900, 600] },
+    { name: 'Maria Oliveira', initials: 'MO', total: 3800, badge: 'Ouro', months: [1200, 1000, 800, 800] },
+    { name: 'Carlos Mendes', initials: 'CM', total: 2800, badge: 'Prata', months: [800, 700, 700, 600] },
+    { name: 'Ana Lima', initials: 'AL', total: 2200, badge: 'Prata', months: [600, 600, 500, 500] },
+    { name: 'Roberto Souza', initials: 'RS', total: 1800, badge: 'Bronze', months: [500, 450, 450, 400] },
+    { name: 'Fernanda Costa', initials: 'FC', total: 1500, badge: 'Bronze', months: [400, 400, 400, 300] },
+  ],
+  activity: [
+    { name: 'Família Silva', initials: 'FS', action_pt: 'realizou uma contribuição', action_en: 'made a contribution', action_es: 'realizó una contribución', amount: 'R$ 2.000', time_pt: 'Agora mesmo', time_en: 'Just now', time_es: 'Ahora mismo' },
+    { name: 'Pr. João Santos', initials: 'JS', action_pt: 'completou a meta de junho', action_en: 'completed the June goal', action_es: 'completó la meta de junio', amount: '✅ Meta!', time_pt: 'Há 2 horas', time_en: '2 hours ago', time_es: 'Hace 2 horas' },
+    { name: 'Maria Oliveira', initials: 'MO', action_pt: 'ingressou como parceira', action_en: 'joined as a partner', action_es: 'se unió como socia', amount: 'R$ 1.200', time_pt: 'Ontem', time_en: 'Yesterday', time_es: 'Ayer' },
+    { name: 'Carlos Mendes', initials: 'CM', action_pt: 'subiu para nível Prata', action_en: 'leveled up to Silver', action_es: 'subió al nivel Plata', amount: '🥈 Prata', time_pt: 'Há 2 dias', time_en: '2 days ago', time_es: 'Hace 2 días' },
+    { name: 'Ana Lima', initials: 'AL', action_pt: 'realizou uma contribuição', action_en: 'made a contribution', action_es: 'realizó una contribución', amount: 'R$ 600', time_pt: 'Há 3 dias', time_en: '3 days ago', time_es: 'Hace 3 días' },
+  ],
+  milestones: [
+    { emoji: '🌱', value: 'R$ 10k', desc_pt: 'Primeira semente', desc_en: 'First seed', desc_es: 'Primera semilla', reached: true },
+    { emoji: '🏗️', value: 'R$ 25k', desc_pt: 'Fundação lançada', desc_en: 'Foundation laid', desc_es: 'Fundación lanzada', reached: true },
+    { emoji: '🧱', value: 'R$ 50k', desc_pt: 'Primeiro mês completo', desc_en: 'First month complete', desc_es: 'Primer mes completo', reached: false },
+    { emoji: '⛪', value: 'R$ 100k', desc_pt: 'Metade da meta!', desc_en: 'Halfway there!', desc_es: '¡Mitad de la meta!', reached: false },
+    { emoji: '🔔', value: 'R$ 150k', desc_pt: 'Sino dobrado', desc_en: 'Bells ringing', desc_es: 'Campanas sonando', reached: false },
+    { emoji: '🎉', value: 'R$ 200k', desc_pt: 'Meta atingida!', desc_en: 'Goal reached!', desc_es: '¡Meta alcanzada!', reached: false },
+  ]
+};
+
+// Compute derived
+DATA.totalRaised = DATA.donors.reduce((s, d) => s + d.total, 0);
+DATA.totalPartners = DATA.donors.length;
+DATA.months.forEach(m => {
+  const total = DATA.donors.reduce((s, d) => {
+    const idx = DATA.months.indexOf(m);
+    return s + (d.months[idx] || 0);
+  }, 0);
+  m.raised = total;
+  m.pct = Math.min(100, Math.round((total / m.target) * 100));
+});
+
+const PCT = Math.round((DATA.totalRaised / DATA.totalGoal) * 100);
+const AVG = DATA.totalPartners > 0 ? Math.round(DATA.totalRaised / DATA.totalPartners) : 0;
+
+// ── i18n ──────────────────────────────────────────
+const TRANSLATIONS = {
+  pt: {
+    brand: 'Founding Partners',
+    live: 'Ao vivo',
+    campaign_progress: 'Campanha 2026',
+    eyebrow: 'Campanha de Construção · 2026',
+    hero_title_1: 'Construindo um lugar',
+    hero_title_2: 'sagrado para todos.',
+    hero_desc: 'Cada contribuição é um tijolo nessa história. Unidos, estamos erguendo não apenas um templo, mas um legado eterno para as próximas gerações em São Mateus, São Paulo.',
+    cta_join: 'Ser parceiro fundador',
+    cta_learn: 'Ver progresso',
+    total_raised_label: 'TOTAL LEVANTADO',
+    goal_prefix: 'Meta:',
+    achieved: 'da meta alcançada',
+    remaining_label: 'faltam',
+    stat_partners: 'Parceiros',
+    stat_months: 'Meses',
+    stat_avg: 'Média/Parceiro',
+    metrics_label: 'Painel de resultados',
+    metrics_title: 'Visão geral da campanha',
+    m_raised: 'Total levantado',
+    m_partners: 'Parceiros ativos',
+    m_pct: 'Da meta global',
+    m_avg: 'Média por parceiro',
+    m_remaining: 'Valor restante',
+    m_deadline: 'Prazo da campanha',
+    monthly_label: 'Metas mensais',
+    monthly_title: 'Progresso mês a mês',
+    milestones_label: 'Marcos da campanha',
+    milestones_title: 'Celebrando cada conquista',
+    ranking_label: 'Parceiros fundadores',
+    ranking_title: 'Ranking de contribuições',
+    activity_label: 'Atividade recente',
+    legacy_title: 'Mural dos Fundadores',
+    legacy_desc: 'Esses nomes serão gravados em uma placa permanente na nova sede da CCG Monte Calvário — um legado eterno para todos que tornaram isso possível.',
+    legacy_note: '* Conforme as contribuições são registradas. Nomes adicionados ao mural após confirmação.',
+    footer_desc: 'Plataforma de arrecadação transparente e segura.',
+  },
+  en: {
+    brand: 'Founding Partners',
+    live: 'Live',
+    campaign_progress: 'Campaign 2026',
+    eyebrow: 'Building Campaign · 2026',
+    hero_title_1: 'Building a sacred',
+    hero_title_2: 'place for all.',
+    hero_desc: 'Every contribution is a brick in this story. Together, we are building not just a temple, but an eternal legacy for future generations in São Mateus, São Paulo.',
+    cta_join: 'Become a founding partner',
+    cta_learn: 'View progress',
+    total_raised_label: 'TOTAL RAISED',
+    goal_prefix: 'Goal:',
+    achieved: 'of goal achieved',
+    remaining_label: 'remaining',
+    stat_partners: 'Partners',
+    stat_months: 'Months',
+    stat_avg: 'Avg/Partner',
+    metrics_label: 'Results dashboard',
+    metrics_title: 'Campaign overview',
+    m_raised: 'Total raised',
+    m_partners: 'Active partners',
+    m_pct: 'Of global goal',
+    m_avg: 'Average per partner',
+    m_remaining: 'Remaining',
+    m_deadline: 'Campaign deadline',
+    monthly_label: 'Monthly goals',
+    monthly_title: 'Month by month progress',
+    milestones_label: 'Campaign milestones',
+    milestones_title: 'Celebrating each achievement',
+    ranking_label: 'Founding partners',
+    ranking_title: 'Contribution ranking',
+    activity_label: 'Recent activity',
+    legacy_title: 'Founders Wall',
+    legacy_desc: "These names will be engraved on a permanent plaque at CCG Monte Calvário's new home — an eternal legacy for all who made this possible.",
+    legacy_note: '* As contributions are registered. Names added to the wall after confirmation.',
+    footer_desc: 'Transparent and secure fundraising platform.',
+  },
+  es: {
+    brand: 'Founding Partners',
+    live: 'En vivo',
+    campaign_progress: 'Campaña 2026',
+    eyebrow: 'Campaña de Construcción · 2026',
+    hero_title_1: 'Construyendo un lugar',
+    hero_title_2: 'sagrado para todos.',
+    hero_desc: 'Cada contribución es un ladrillo en esta historia. Unidos, estamos erigiendo no solo un templo, sino un legado eterno para las próximas generaciones en São Mateus.',
+    cta_join: 'Ser socio fundador',
+    cta_learn: 'Ver progreso',
+    total_raised_label: 'TOTAL RECAUDADO',
+    goal_prefix: 'Meta:',
+    achieved: 'de la meta alcanzada',
+    remaining_label: 'faltan',
+    stat_partners: 'Socios',
+    stat_months: 'Meses',
+    stat_avg: 'Promedio/Socio',
+    metrics_label: 'Panel de resultados',
+    metrics_title: 'Visión general',
+    m_raised: 'Total recaudado',
+    m_partners: 'Socios activos',
+    m_pct: 'De la meta global',
+    m_avg: 'Promedio por socio',
+    m_remaining: 'Valor restante',
+    m_deadline: 'Plazo de campaña',
+    monthly_label: 'Metas mensuales',
+    monthly_title: 'Progreso mes a mes',
+    milestones_label: 'Hitos de la campaña',
+    milestones_title: 'Celebrando cada logro',
+    ranking_label: 'Socios fundadores',
+    ranking_title: 'Ranking de contribuciones',
+    activity_label: 'Actividad reciente',
+    legacy_title: 'Mural de Fundadores',
+    legacy_desc: 'Estos nombres serán grabados en una placa permanente en la nueva sede de CCG Monte Calvário — un legado eterno para quienes hicieron esto posible.',
+    legacy_note: '* A medida que se registran las contribuciones. Nombres añadidos tras confirmación.',
+    footer_desc: 'Plataforma de recaudación transparente y segura.',
+  }
+};
+
+let currentLang = 'pt';
+
+function fmt(n) {
+  if (n >= 1000) return 'R$' + (n/1000).toFixed(1).replace('.0','') + 'k';
+  return 'R$' + n.toLocaleString('pt-BR');
+}
+
+function fmtFull(n) {
+  return 'R$ ' + n.toLocaleString('pt-BR');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (TRANSLATIONS[lang][key]) el.textContent = TRANSLATIONS[lang][key];
+  });
+  renderMonths();
+  renderActivity();
+  renderMilestones();
+}
+
+// ── RENDER ─────────────────────────────────────────
+function renderHero() {
+  document.getElementById('hero-amount').textContent = fmtFull(DATA.totalRaised);
+  document.getElementById('hero-remaining').textContent = fmtFull(DATA.totalGoal - DATA.totalRaised);
+  document.getElementById('hero-pct').textContent = PCT + '%';
+  document.getElementById('stat-partners').textContent = DATA.totalPartners;
+  document.getElementById('stat-avg').textContent = fmt(AVG);
+
+  // metrics
+  document.getElementById('m-raised').textContent = fmt(DATA.totalRaised);
+  document.getElementById('m-partners').textContent = DATA.totalPartners;
+  document.getElementById('m-pct').textContent = PCT + '%';
+  document.getElementById('m-avg').textContent = fmt(AVG);
+  document.getElementById('m-remaining').textContent = fmt(DATA.totalGoal - DATA.totalRaised);
+
+  setTimeout(() => {
+    document.getElementById('hero-fill').style.width = PCT + '%';
+    document.getElementById('ticker-fill').style.width = PCT + '%';
+    document.getElementById('ticker-pct').textContent = PCT + '%';
+  }, 300);
+}
+
+function renderMonths() {
+  const g = document.getElementById('months-grid');
+  const statusLabels = { pt: { upcoming: 'Em breve', active: 'Ativo', done: 'Concluído' }, en: { upcoming: 'Upcoming', active: 'Active', done: 'Complete' }, es: { upcoming: 'Próximo', active: 'Activo', done: 'Completado' } };
+  g.innerHTML = DATA.months.map(m => {
+    const sl = statusLabels[currentLang];
+    const s = m.raised > 0 ? (m.pct >= 100 ? 'done' : 'active') : 'upcoming';
+    const cls = s === 'active' ? 'status-active' : s === 'done' ? 'status-done' : 'status-upcoming';
+    const label = sl[s];
+    return `<div class="month-card ${s === 'active' ? 'active' : ''}">
+      <div class="month-header">
+        <span class="month-name">${m.name[currentLang]}</span>
+        <span class="month-status ${cls}">${label}</span>
+      </div>
+      <div class="month-amounts">
+        <div class="month-raised">${fmt(m.raised)}</div>
+        <div class="month-target">/ ${fmt(m.target)}</div>
+      </div>
+      <div class="month-bar">
+        <div class="month-bar-fill ${m.pct >= 100 ? 'green' : ''}" style="width:${m.pct}%"></div>
+      </div>
+      <div class="month-pct">${m.pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+function renderLeaderboard() {
+  const sorted = [...DATA.donors].sort((a, b) => b.total - a.total);
+  const top3 = sorted.slice(0, 3);
+  const medals = ['🥇', '🥈', '🥉'];
+  const order = [top3[1], top3[0], top3[2]]; // 2nd, 1st, 3rd for podium
+
+  document.getElementById('top3-grid').innerHTML = order.map((d, vi) => {
+    if (!d) return '<div></div>';
+    const rank = top3.indexOf(d);
+    const isFirst = rank === 0;
+    const badgeCls = rank === 0 ? 'badge-gold' : rank === 1 ? 'badge-silver' : 'badge-bronze';
+    return `<div class="podium-card ${isFirst ? 'first' : ''}">
+      ${isFirst ? '<span class="podium-crown">👑</span>' : ''}
+      <div class="podium-avatar">${d.initials}</div>
+      <div class="podium-name">${d.name}</div>
+      <div class="podium-amount">${fmt(d.total)}</div>
+      <div style="margin-top:6px"><span class="badge ${badgeCls}">${medals[rank]} ${d.badge}</span></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('leaderboard-table').innerHTML = sorted.map((d, i) => {
+    const badgeCls = i === 0 ? 'badge-gold' : i === 1 ? 'badge-silver' : i === 2 ? 'badge-bronze' : '';
+    return `<div class="table-row">
+      <div class="row-rank">${i + 1}</div>
+      <div>
+        <div class="row-name">${d.name}</div>
+        <div class="row-badge">${badgeCls ? `<span class="badge ${badgeCls}">${d.badge}</span>` : d.badge}</div>
+      </div>
+      <div class="row-amount">${fmt(d.total)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderActivity() {
+  document.getElementById('activity-list').innerHTML = DATA.activity.map(a => `
+    <div class="activity-item">
+      <div class="activity-avatar">${a.initials}</div>
+      <div class="activity-body">
+        <div class="activity-text"><strong>${a.name}</strong> ${a['action_' + currentLang]}</div>
+        <div class="activity-time">${a['time_' + currentLang]}</div>
+      </div>
+      <div class="activity-amount">${a.amount}</div>
+    </div>
+  `).join('');
+}
+
+function renderMilestones() {
+  document.getElementById('milestones-row').innerHTML = DATA.milestones.map(m => `
+    <div class="milestone-item ${m.reached ? 'reached' : ''}">
+      <span class="milestone-emoji">${m.reached ? m.emoji : '🔒'}</span>
+      <div class="milestone-val" style="${!m.reached ? 'color:var(--text-dim)' : ''}">${m.value}</div>
+      <div class="milestone-desc">${m['desc_' + currentLang]}</div>
+    </div>
+  `).join('');
+}
+
+function renderLegacy() {
+  const names = DATA.donors.map(d => `<div class="name-chip">${d.name}</div>`).join('');
+  const placeholders = Array(5).fill(0).map(() => `<div class="name-chip placeholder">Seu nome aqui</div>`).join('');
+  document.getElementById('names-grid').innerHTML = names + placeholders;
+}
+
+function renderUpdateTime() {
+  const now = new Date();
+  const fmt2 = n => String(n).padStart(2,'0');
+  document.getElementById('update-time').textContent =
+    `Atualizado: ${fmt2(now.getDate())}/${fmt2(now.getMonth()+1)}/${now.getFullYear()} ${fmt2(now.getHours())}:${fmt2(now.getMinutes())}`;
+}
+
+// ── INTERSECTION OBSERVER ─────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // animate month bars
+      e.target.querySelectorAll('.month-bar-fill').forEach((bar, i) => {
+        const m = DATA.months[i];
+        if (m) setTimeout(() => { bar.style.width = m.pct + '%'; }, i * 100);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+
+// ── INIT ──────────────────────────────────────────
+renderHero();
+renderMonths();
+renderLeaderboard();
+renderActivity();
+renderMilestones();
+renderLegacy();
+renderUpdateTime();
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Animate month bars after page load
+setTimeout(() => {
+  document.querySelectorAll('.month-bar-fill').forEach((bar, i) => {
+    const m = DATA.months[i];
+    if (m) bar.style.width = m.pct + '%';
+  });
+}, 600);
+</script>
+</body>
+</html>
