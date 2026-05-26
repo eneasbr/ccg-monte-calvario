@@ -1193,32 +1193,32 @@
 
   <div class="metrics-grid">
     <div class="metric-card gold">
-      <div class="metric-icon">🏛️</div>
+      <div class="metric-icon"><img src="img/icons/temple.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value" id="m-raised">—</div>
       <div class="metric-label" data-i18n="m_raised">Total levantado</div>
     </div>
     <div class="metric-card">
-      <div class="metric-icon">👥</div>
+      <div class="metric-icon"><img src="img/icons/users.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value" id="m-partners">—</div>
       <div class="metric-label" data-i18n="m_partners">Parceiros ativos</div>
     </div>
     <div class="metric-card">
-      <div class="metric-icon">📈</div>
+      <div class="metric-icon"><img src="img/icons/trending-up.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value" id="m-pct">—</div>
       <div class="metric-label" data-i18n="m_pct">Da meta global</div>
     </div>
     <div class="metric-card">
-      <div class="metric-icon">💎</div>
+      <div class="metric-icon"><img src="img/icons/diamond.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value" id="m-avg">—</div>
       <div class="metric-label" data-i18n="m_avg">Média por parceiro</div>
     </div>
     <div class="metric-card">
-      <div class="metric-icon">🎯</div>
+      <div class="metric-icon"><img src="img/icons/target.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value" id="m-remaining">—</div>
       <div class="metric-label" data-i18n="m_remaining">Valor restante</div>
     </div>
     <div class="metric-card">
-      <div class="metric-icon">🗓️</div>
+      <div class="metric-icon"><img src="img/icons/calendar.svg" style="width:18px;height:18px;opacity:0.9"/></div>
       <div class="metric-value">Set/25</div>
       <div class="metric-label" data-i18n="m_deadline">Prazo da campanha</div>
     </div>
@@ -1338,12 +1338,12 @@ const DATA = {
     { name: 'Ana Lima', initials: 'AL', action_pt: 'realizou uma contribuição', action_en: 'made a contribution', action_es: 'realizó una contribución', amount: 'R$ 600', time_pt: 'Há 3 dias', time_en: '3 days ago', time_es: 'Hace 3 días' },
   ],
   milestones: [
-    { emoji: '🌱', value: 'R$ 10k', desc_pt: 'Primeira semente', desc_en: 'First seed', desc_es: 'Primera semilla', reached: true },
-    { emoji: '🏗️', value: 'R$ 25k', desc_pt: 'Fundação lançada', desc_en: 'Foundation laid', desc_es: 'Fundación lanzada', reached: true },
-    { emoji: '🧱', value: 'R$ 50k', desc_pt: 'Primeiro mês completo', desc_en: 'First month complete', desc_es: 'Primer mes completo', reached: false },
-    { emoji: '⛪', value: 'R$ 100k', desc_pt: 'Metade da meta!', desc_en: 'Halfway there!', desc_es: '¡Mitad de la meta!', reached: false },
-    { emoji: '🔔', value: 'R$ 150k', desc_pt: 'Sino dobrado', desc_en: 'Bells ringing', desc_es: 'Campanas sonando', reached: false },
-    { emoji: '🎉', value: 'R$ 200k', desc_pt: 'Meta atingida!', desc_en: 'Goal reached!', desc_es: '¡Meta alcanzada!', reached: false },
+    { emoji: 'img/icons/seed.svg',        value: 'R$ 10k', desc_pt: 'Primeira semente',      desc_en: 'First seed',           desc_es: 'Primera semilla',      reached: true },
+    { emoji: 'img/icons/foundation.svg',  value: 'R$ 25k', desc_pt: 'Fundação lançada',      desc_en: 'Foundation laid',      desc_es: 'Fundación lanzada',    reached: true },
+    { emoji: 'img/icons/brick.svg',       value: 'R$ 50k', desc_pt: 'Primeiro mês completo', desc_en: 'First month complete', desc_es: 'Primer mes completo',   reached: false },
+    { emoji: 'img/icons/church.svg',      value: 'R$ 100k', desc_pt: 'Metade da meta!',      desc_en: 'Halfway there!',       desc_es: '¡Mitad de la meta!',   reached: false },
+    { emoji: 'img/icons/bell.svg',        value: 'R$ 150k', desc_pt: 'Sino dobrado',         desc_en: 'Bells ringing',        desc_es: 'Campanas sonando',     reached: false },
+    { emoji: 'img/icons/celebration.svg', value: 'R$ 200k', desc_pt: 'Meta atingida!',       desc_en: 'Goal reached!',        desc_es: '¡Meta alcanzada!',     reached: false },
   ]
 };
 
@@ -1596,7 +1596,7 @@ function renderActivity() {
 function renderMilestones() {
   document.getElementById('milestones-row').innerHTML = DATA.milestones.map(m => `
     <div class="milestone-item ${m.reached ? 'reached' : ''}">
-      <span class="milestone-emoji">${m.reached ? m.emoji : '🔒'}</span>
+      <span class="milestone-emoji">${m.reached ? `<img src="${m.emoji}" style="width:28px;height:28px"/>` : `<img src="img/icons/lock.svg" style="width:28px;height:28px;opacity:0.4"/>`}</span>
       <div class="milestone-val" style="${!m.reached ? 'color:var(--text-dim)' : ''}">${m.value}</div>
       <div class="milestone-desc">${m['desc_' + currentLang]}</div>
     </div>
