@@ -6,7 +6,7 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const sb = createServerSupabaseClient()
+  const sb = await createServerSupabaseClient()
   const { data: { session } } = await sb.auth.getSession()
   if (!session) redirect('/admin')
   return <>{children}</>
