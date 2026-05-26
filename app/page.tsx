@@ -314,7 +314,7 @@ export default function HomePage() {
         </div>
         <div className="milestone-row" style={{display:'flex',gap:'10px',overflowX:'auto',paddingBottom:'8px'}}>
           {milestones.map((m) => (
-            <div key={m.id} style={{flexShrink:0,background:'var(--bg2)',border:`1px solid ${m.reached?'var(--border)':'var(--border-light)'}`,borderRadius:'12px',padding:'1rem 1.25rem',minWidth:'160px',textAlign:'center',background:m.reached?'linear-gradient(135deg,rgba(74,144,217,0.06),var(--bg2))':'var(--bg2)'}}>
+            <div key={m.id} style={{flexShrink:0,border:`1px solid ${m.reached?'var(--border)':'var(--border-light)'}`,borderRadius:'12px',padding:'1rem 1.25rem',minWidth:'160px',textAlign:'center',background:m.reached?'linear-gradient(135deg,rgba(74,144,217,0.06),var(--bg2))':'var(--bg2)'}}>
               <span style={{fontSize:'24px',marginBottom:'6px',display:'block'}}>{m.reached ? m.emoji : '🔒'}</span>
               <div style={{fontSize:'14px',fontWeight:600,color:m.reached?'var(--cream)':'var(--text-dim)',marginBottom:'2px'}}>{m.value_label}</div>
               <div style={{fontSize:'11px',color:'var(--text-dim)'}}>{lang==='pt'?m.desc_pt:lang==='en'?m.desc_en:m.desc_es}</div>
@@ -342,7 +342,7 @@ export default function HomePage() {
                 const badgeColors = ['rgba(255,215,0,0.15)','rgba(192,192,192,0.15)','rgba(205,127,50,0.15)']
                 const badgeTextColors = ['#FFD700','#D8D8D8','#E8A060']
                 return (
-                  <div key={d.id} style={{background:'var(--bg2)',border:'1px solid var(--border-light)',borderRadius:'14px',padding:isFirst?'1.5rem 1rem 1rem':'1rem',textAlign:'center',position:'relative',background:isFirst?'linear-gradient(180deg,rgba(74,144,217,0.08) 0%,var(--bg2) 100%)':'var(--bg2)'}}>
+                  <div key={d.id} style={{border:'1px solid var(--border-light)',borderRadius:'14px',padding:isFirst?'1.5rem 1rem 1rem':'1rem',textAlign:'center',position:'relative',background:isFirst?'linear-gradient(180deg,rgba(74,144,217,0.08) 0%,var(--bg2) 100%)':'var(--bg2)'}}>
                     {isFirst && <span style={{position:'absolute',top:'-14px',left:'50%',transform:'translateX(-50%)',fontSize:'22px'}}>👑</span>}
                     <div style={{width:isFirst?'52px':'44px',height:isFirst?'52px':'44px',borderRadius:'50%',background:'linear-gradient(135deg,var(--gold-dark),var(--gold))',display:'flex',alignItems:'center',justifyContent:'center',fontSize:isFirst?'18px':'15px',fontWeight:600,color:'var(--bg)',margin:'0 auto 0.5rem',border:`2px solid ${isFirst?'var(--gold)':'var(--border)'}`}}>
                       {d.initials}
