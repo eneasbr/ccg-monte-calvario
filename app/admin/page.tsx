@@ -86,6 +86,24 @@ export default function AdminLoginPage() {
           >
             {loading ? 'Entrando...' : 'Entrar no painel →'}
           </button>
+
+          <div style={{textAlign:'center',marginTop:'1rem'}}>
+            <button
+              type="button"
+              onClick={async () => {
+                if (!email) { setError('Digite seu email primeiro.'); return }
+                const sb = createClient()
+                await sb.auth.resetPasswordForEmail(email, {
+                  redirectTo: `${window.location.origin}/auth/reset-password`,
+                })
+                setError('')
+                alert('Email de recuperação enviado!')
+              }}
+              style={{background:'none',border:'none',color:'var(--text-muted)',fontSize:'13px',cursor:'pointer',textDecoration:'underline'}}
+            >
+              Esqueci minha senha
+            </button>
+          </div>
         </form>
       </div>
     </div>
