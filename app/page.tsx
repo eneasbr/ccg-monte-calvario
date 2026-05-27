@@ -124,12 +124,15 @@ export default function HomePage() {
   // Realtime updates
   useEffect(() => {
     const sb = createClient()
-    const channel = sb
-      .channel('dashboard')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'donors' }, load)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'contributions' }, load)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'monthly_goals' }, load)
-      .subscribe()
+  const channel = sb
+  .channel('dashboard')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'donors' }, load)
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'contributions' }, load)
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'monthly_goals' }, load)
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'campaigns' }, load)
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'activity_feed' }, load)
+  .subscribe()
+  
     return () => { sb.removeChannel(channel) }
   }, [load])
 

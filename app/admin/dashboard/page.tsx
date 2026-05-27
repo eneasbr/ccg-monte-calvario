@@ -136,7 +136,15 @@ export default function AdminDashboard() {
 
   // ── QUICK UPDATE ──
   async function saveQuick(raised: number, partners: number, goal: number) {
-    await sb.from('campaigns').update({ goal }).eq('id', campaignId)
+  await sb.from('campaigns').update({ 
+    goal,
+    raised,
+    total_partners: partners 
+  }).eq('id', campaignId)
+  toast('Valores salvos!', 'success')
+  addLog(`Total atualizado: R$ ${raised.toLocaleString('pt-BR')}`)
+  loadAll()
+}
     toast('Valores salvos!', 'success')
     addLog(`Total atualizado: R$ ${raised.toLocaleString('pt-BR')}`)
     loadAll()
@@ -737,17 +745,32 @@ export default function AdminDashboard() {
 // ── SUB-COMPONENTS ──
 
 function QuickUpdate({ summary, onSave, S }: { summary: CampaignSummary | null; onSave: (r:number,p:number,g:number)=>void; S: any }) {
-  const [total, setTotal] = useState(summary?.total_raised ?? 0)
-  const [partners, setPartners] = useState(summary?.total_partners ?? 0)
   const [goal, setGoal] = useState(200000)
-  useEffect(() => { if(summary) { setTotal(summary.total_raised); setPartners(summary.total_partners) } }, [summary])
+  useEffect(() => { if(summary) { setGoal(summary.goal ?? 200000) } }, [summary])
   return (
     <div style={S.card}>
-      <div style={S.cardHeader}><span style={{ fontSize:'13px', fontWeight:600, color:'var(--text)' }}>⚡ Atualização rápida</span><button style={S.btnPrimary} onClick={() => onSave(total,partners,goal)}>Salvar</button></div>
+      <div style={S.cardHeader}>
+        <span style={{ fontSize:'13px', fontWeight:600, color:'var(--text)' }}>⚡ Atualização rápida</span>
+        <button style={S.btnPrimary} onClick={() => onSave(0, 0, goal)}>Salvar</button>
+      </div>
       <div style={S.cardBody}>
-        <div style={{ marginBottom:'1rem' }}><label style={S.label}>Total levantado (R$)</label><div style={{ display:'flex', alignItems:'center', background:'var(--bg3)', border:'1px solid var(--border)', borderRadius:'10px', overflow:'hidden' }}><span style={{ fontSize:'12px', color:'var(--text-dim)', padding:'10px 12px', background:'var(--bg4)', borderRight:'1px solid var(--border)' }}>R$</span><input type="number" value={total} onChange={e=>setTotal(parseInt(e.target.value)||0)} style={{ flex:1, background:'none', border:'none', outline:'none', color:'var(--text)', fontFamily:'Montserrat,sans-serif', fontSize:'14px', padding:'10px 12px' }}/></div></div>
-        <div style={{ marginBottom:'1rem' }}><label style={S.label}>Total de parceiros</label><div style={{ display:'flex', alignItems:'center', background:'var(--bg3)', border:'1px solid var(--border)', borderRadius:'10px', overflow:'hidden' }}><span style={{ fontSize:'12px', color:'var(--text-dim)', padding:'10px 12px', background:'var(--bg4)', borderRight:'1px solid var(--border)' }}>#</span><input type="number" value={partners} onChange={e=>setPartners(parseInt(e.target.value)||0)} style={{ flex:1, background:'none', border:'none', outline:'none', color:'var(--text)', fontFamily:'Montserrat,sans-serif', fontSize:'14px', padding:'10px 12px' }}/></div></div>
-        <div><label style={S.label}>Meta total (R$)</label><div style={{ display:'flex', alignItems:'center', background:'var(--bg3)', border:'1px solid var(--border)', borderRadius:'10px', overflow:'hidden' }}><span style={{ fontSize:'12px', color:'var(--text-dim)', padding:'10px 12px', background:'var(--bg4)', borderRight:'1px solid var(--border)' }}>R$</span><input type="number" value={goal} onChange={e=>setGoal(parseInt(e.target.value)||200000)} style={{ flex:1, background:'none', border:'none', outline:'none', color:'var(--text)', fontFamily:'Montserrat,sans-serif', fontSize:'14px', padding:'10px 12px' }}/></div></div>
+        <div style={{ marginBottom:'1rem', padding:'1rem', background:'var(--bg3)', borderRadius:'10px', border:'1px solid var(--border-light)' }}>
+          <div style={{ fontSize:'11px', color:'var(--text-dim)', marginBottom:'4px', textTransform:'uppercase', letterSpacing:'.08em' }}>Total levantado (automático)</div>
+          <div style={{ fontFamily:'Montserrat,sans-serif', fontSize:'1.4rem', fontWeight:300, color:'var(--text)' }}>{summary ? fmtFull(summary.total_raised) : '—'}</div>
+          <div style={{ fontSize:'11px', color:'var(--text-dim)', marginTop:'2px' }}>Calculado via contribuições dos parceiros</div>
+        </div>
+        <div style={{ marginBottom:'1rem', padding:'1rem', background:'var(--bg3)', borderRadius:'10px', border:'1px solid var(--border-light)' }}>
+          <div style={{ fontSize:'11px', color:'var(--text-dim)', marginBottom:'4px', textTransform:'uppercase', letterSpacing:'.08em' }}>Parceiros ativos (automático)</div>
+          <div style={{ fontFamily:'Montserrat,sans-serif', fontSize:'1.4rem', fontWeight:300, color:'var(--text)' }}>{summary?.total_partners ?? '—'}</div>
+          <div style={{ fontSize:'11px', color:'var(--text-dim)', marginTop:'2px' }}>Calculado via cadastro de parceiros</div>
+        </div>
+        <div>
+          <label style={S.label}>Meta total (R$)</label>
+          <div style={{ display:'flex', alignItems:'center', background:'var(--bg3)', border:'1px solid var(--border)', borderRadius:'10px', overflow:'hidden' }}>
+            <span style={{ fontSize:'12px', color:'var(--text-dim)', padding:'10px 12px', background:'var(--bg4)', borderRight:'1px solid var(--border)' }}>R$</span>
+            <input type="number" value={goal} onChange={e=>setGoal(parseInt(e.target.value)||200000)} style={{ flex:1, background:'none', border:'none', outline:'none', color:'var(--text)', fontFamily:'Montserrat,sans-serif', fontSize:'14px', padding:'10px 12px' }}/>
+          </div>
+        </div>
       </div>
     </div>
   )
