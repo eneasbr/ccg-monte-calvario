@@ -156,7 +156,7 @@ export default function HomePage() {
             <div style={{fontSize:'11px',color:'var(--text-muted)',letterSpacing:'0.05em',textTransform:'uppercase'}}>CCG Monte Calvário</div>
           </div>
         </a>
-        <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'6px',flexShrink:0}}>
           <div style={{display:'flex',alignItems:'center',gap:'6px',fontSize:'11px',fontWeight:500,color:'var(--green)',letterSpacing:'0.08em',textTransform:'uppercase'}}>
             <span className="live-dot" style={{width:'6px',height:'6px',borderRadius:'50%',background:'var(--green)',display:'inline-block'}}/>
             {t.live}
@@ -180,7 +180,7 @@ export default function HomePage() {
       </div>
 
       {/* HERO */}
-      <div style={{padding:'clamp(3rem,8vw,6rem) clamp(1rem,4vw,3rem) clamp(2rem,6vw,4rem)',maxWidth:'1100px',margin:'0 auto',display:'grid',gridTemplateColumns:'1fr 1fr',gap:'clamp(2rem,6vw,5rem)',alignItems:'center'}}>
+      <div style={{padding:'clamp(3rem,8vw,6rem) clamp(1rem,4vw,3rem) clamp(2rem,6vw,4rem)',maxWidth:'1100px',margin:'0 auto',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,440px),1fr))',gap:'clamp(2rem,6vw,5rem)',alignItems:'center'}}>
         <div className="fade-in visible">
           <div style={{display:'inline-flex',alignItems:'center',gap:'8px',fontSize:'11px',fontWeight:600,letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'1.5rem',padding:'6px 14px',border:'1px solid var(--border)',borderRadius:'100px',background:'rgba(74,144,217,0.06)'}}>
             <span>✦</span><span>{t.eyebrow}</span>
